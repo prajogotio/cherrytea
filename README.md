@@ -80,20 +80,29 @@ This section explains how to start working on the source codes.
    calling the init_db function in cherrytea/dbapi.py. (You can use python 
    shell to do it.)
 
-5. Start working!
-   5.1 Go through Flask to understand how the routing will be done later.
+5. How to run the server:
+   5.1 In the cherrytea folder where app.py is located, run:
+       `gunicorn -k gevent_wsgi app:app`
+   That command will start the Gevent.WSGIServer instance. Our web app is
+   now up and running on your local machine, on port 8000 (default port 
+   for gunicorn servers)
+   5.2 Now you can test the app by opening up your browser and go to this
+   url: `localhost:8000`
 
-   5.2 Go through Flask-SQLAlchemy to understand more clearly how to use
+6. Start working!
+   6.1 Go through Flask to understand how the routing will be done later.
+
+   6.2 Go through Flask-SQLAlchemy to understand more clearly how to use
    this convoluted stuff, so you can extend the database functionality.
 
-   5.3 Go through JS/CSS for our frontend UI design later.
+   6.3 Go through JS/CSS for our frontend UI design later.
 
-   5.4 Go through JS-XMLHttpRequest which will be one of our mean to
+   6.4 Go through JS-XMLHttpRequest which will be one of our mean to
    interact with cherrytea server
 
-   5.5 When in doubt, WHATSAPP
+   6.5 When in doubt, WHATSAPP
 
-6. God speed, hope we can finish on time!
+y. God speed, hope we can finish on time!
 
 
 ================================================================================
@@ -162,3 +171,7 @@ profile
 
 profile_pic
     (pic_id, pic_url, pic_data)
+
+
+Cherrytea email address: cherryteadb [at] gmail [dot] com
+Password: [school] [year]
