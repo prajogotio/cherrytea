@@ -42,7 +42,7 @@ body, #head_wrapper {
 
 .regform-item-caption {
 	font-size:31px;
-	background-color:#2EA852;
+	/*background-color:#2EA852;*/
 	color:white;
 	padding:10px;
 	border-radius:10px 10px 0 0;
@@ -56,7 +56,7 @@ body, #head_wrapper {
 	margin:5%;
 	cursor:pointer;
 	border-radius:10px;
-	background-color:#2EA852;
+	background-color:rgba(255,255,255,0.1);
 	border:1px solid rgba(255,255,255,0.4);
 	transition: background-color 0.5s;
 }
@@ -189,4 +189,10 @@ body, #head_wrapper {
 #regform-user-pass, #regform-verif, #regform-done{
 	display:none;
 	opacity:0;
+}
+
+#regform-user-pass-next {
+	transition:opacity 0.5s;
+	opacity:0;
+	visibility:hidden;
 }

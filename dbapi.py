@@ -243,7 +243,7 @@ def init_db():
 
 
 # User Registration
-def create_user(username,password,user_type='ind',paypal_id=None,date_joined=None,time_last_active=None,charity_number=None,verified=None,address=None):
+def create_user(username,password,user_type='ind',paypal_id=None,date_joined=None,time_last_active=None,charity_number=None,verified=None,address=None,email=None):
 	try:
 		if not date_joined:
 			date_joined = datetime.datetime.utcnow()
@@ -256,7 +256,8 @@ def create_user(username,password,user_type='ind',paypal_id=None,date_joined=Non
 				  'date_joined':date_joined,
 				  'charity_number':charity_number,
 				  'verified':verified,
-				  'address':address}
+				  'address':address,
+				  'email':email}
 		u = User(**params)
 		db.session.add(u)
 		db.session.commit()

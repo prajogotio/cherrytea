@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, request, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from gevent.wsgi import WSGIServer
 
@@ -19,6 +19,13 @@ def index():
 @app.route('/register')
 def register():
 	return render_template('register.html')
+
+@app.route('/create_user', methods=['POST'])
+def app_create_user():
+	success = create_user(request.form['username'], request.form['password'],
+			    request.form['user_type'], email=request.form['email'],
+			    charity_number=request.form['charity_number']);
+	return jsonify(success=success)
 
 if __name__ == '__main__':
 	server = WSGIServer(('',5000),app)
