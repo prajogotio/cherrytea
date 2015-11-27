@@ -1,0 +1,119 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/register.css') }}"> 
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<!-- Registration form -->
+	<div id="regform" class="main-frame">
+		<div id="regform-header" class="regform-item">
+			Registration
+		</div>
+		<!-- Step one: what user type? -->
+		<div id="regform-user-type" class="regform-item">
+			<div class="regform-item-caption">
+				Are you an <i>organisation</i>? Or a kind-hearted <i>donator</i>?
+			</div>
+			<div class="regform-item-content">
+				<div id="org-choice">
+					<img src="{{ url_for('static', filename='img/org-icon.png') }}">
+					<div>Organisation</div>
+				</div>
+				<div id="person-choice">
+					<img src="{{ url_for('static', filename='img/person-icon.png') }}">
+					<div>Donator</div>
+				</div>
+				<div class="clear-fix"></div>
+			</div>
+		</div>
+
+		<!-- Step 2: type in username and password -->
+		<div id="regform-user-pass" class="regform-items-container">
+			<div id="regform-username" class="regform-item">
+				<div class="regform-item-caption">
+					Pick a username
+				</div>
+				<div class="regform-item-content">
+					<input type="text" class="transparent-input">
+				</div>
+			</div>
+			<div id="regform-password" class="regform-item">
+				<div class="regform-item-caption">
+					Plant a password
+				</div>
+				<div class="regform-item-content">
+					<input type="password" class="transparent-input">
+				</div>
+			</div>
+			<div id="regform-password-conf" class="regform-item">
+				<div class="regform-item-caption">
+					Confirm password
+				</div>
+				<div class="regform-item-content">
+					<input type="password" class="transparent-input">
+				</div>
+			</div>
+			<div id="regform-user-pass-next" class="regform-item">
+				<div class="regform-item-content">
+					<input id="regform-user-pass-next-button" type="submit" value="next" class="regform-next-button">
+					<div class="clear-fix"></div>
+				</div>
+			</div>
+		</div>
+		<!-- Step 3: 
+		get email address
+		if organisation, submit charity registration number if any
+		-->
+		<div id="regform-verif" class="regform-items-container">
+			<div id="regform-email" class="regform-item">
+				<div class="regform-item-caption">
+					Enter email address
+				</div>
+				<div class="regform-item-content">
+					<input type="text" class="transparent-input">
+				</div>
+			</div>
+			<div id="regform-char-num" class="regform-item">
+				<div class="regform-item-caption">
+					Enter charity registration number, if any:
+				</div>
+				<div class="regform-item-content">
+					<input type="text" class="transparent-input">
+				</div>
+			</div>
+			<div id="regform-verif-next" class="regform-item">
+				<div class="regform-item-content">
+					<input id="regform-verif-next-button"  type="submit" value="next" class="regform-next-button">
+					<div class="clear-fix"></div>
+				</div>
+			</div>
+		</div>
+		<!-- Step 4: thank user and wait for verification -->
+		<div id="regform-done" class="regform-items-container">
+			<div id="regform-done-heading">
+				Thank you for registering with CherryTea!
+			</div>
+			<div id="regform-done-subheading">
+				An email has been sent to you for verification. Follow the link given in the email to activate your account.
+			</div>
+		</div>
+	</div>
+
+
+	<!-- This is header part -->
+	<div id="head-wrapper" onclick="window.location='/'">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div id="head-login-link" class="float-right head-menu-href">
+			<a href="#">Login</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+</body>
+</html>

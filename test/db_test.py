@@ -35,8 +35,18 @@ def break_test_db():
 		create_user_profile(2, 'Chin', 'Chen', bio='My name is jumbled up!!!!'),
 		create_user_profile(3, 'Kwokokwokowko', 'Kong', bio='Mine tooo!!!'),
 		create_user_profile(4, 'Sumer', 'Sinha', bio='I am the second most generous donator so far!'),
+		set_affliation(1, 24),
+		set_affliation(2, 24),
+		set_affliation(3, 24),
+		set_affliation(4, 24),
+		set_affliation(1, 24),
+		set_affliation(1, 2) == False,
+		set_affliation(5, 23)
 	]
 
 	for v in all_tests:
 		check_and_print(v)
 
+
+if __name__ == '__main__':
+	break_test_db()

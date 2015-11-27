@@ -1,0 +1,52 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/cherrytea.js')}}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/index.css') }}">
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<!-- This is the landing page -->
+	<div id="landing-page" class="main-frame">
+		<div id="landing-page-background" class="main-frame-bg">
+			<video id="landing-page-bg-vid" autoplay muted loop onloadstart="this.playbackRate = 0.88">
+				<source src="{{ url_for('static', filename='media/landing-page.mp4') }}" type="video/mp4">
+			</video>
+		</div>
+
+		<div id="landing-caption">
+			<div id="landing-caption-main">Linking charities worldwide</div>
+			<div id="landing-caption-sub">let's share sweetness together</div>
+		</div>
+
+		<div id="landing-search-wrapper">
+			<input type='text' id="landing-search-input" class="float-left" value="search for charity here">
+			<input type='submit' id="landing-search-submit" class="float-left" value="search">
+			<div class="clear-fix"></div>
+		</div>
+
+		<div id="landing-to-nextpage">
+			<div>Fresh Cherries</div>
+			<img src="{{ url_for('static', filename='img/arrow-down.png') }}">
+		</div>
+	</div>
+
+	<!-- This is the header-menu part of the landing page -->
+	<div id="head-wrapper">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div id="head-login-link" class="float-right head-menu-href">
+			<a href="#">Login</a>
+		</div>
+		<div id="head-signup-link" class="float-right head-menu-href">
+			<a href="#">Register</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+
+</body>
+</html>

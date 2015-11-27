@@ -133,13 +133,15 @@ proj_follower(proj_id, follower_id)
 2. User
 users
     (user_id, username, password, user_type, paypal_id, date_joined,
-    time_last_active, charity_number, verified, address)
+    time_last_active, charity_number, verified, address, org_id, email)
 
 Notes:
  *  type           : individual/organization
  *  charity_number : charity_number registered, for verification of organization
  *  verified       : true/false, depending whether the organization passes
                      verification
+ *  address        : country/city
+ *  org_id         : id of organisation user is affliated to
 
 
 3. Donation history
@@ -156,7 +158,7 @@ paypal
 5. User Profile
 profile
     (profile_id, user_id, first_name, last_name, date_of_birth, bio,
-     profile_pic)
+     profile_pic, address)
 
 profile_pic
     (pic_id, pic_url, pic_data)

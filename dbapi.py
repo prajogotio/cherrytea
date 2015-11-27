@@ -32,6 +32,11 @@ class User(db.Model):
 	charity_number = db.Column(db.String())
 	verified = db.Column(db.Integer, default=IS_NOT_VERIFIED)
 	address = db.Column(db.String())
+	email = db.Column(db.String())
+
+	# affliation
+	org_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	members = db.relationship('User', backref=db.backref('affliated_to', remote_side=[user_id]))
 
 	def __init__(self, **kwargs):
 		for key in kwargs:
@@ -184,6 +189,7 @@ class UserProfile(db.Model):
 	date_of_birth = db.Column(db.DateTime)
 	bio = db.Column(db.Text)
 	profile_pic_id = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
+	address = db.Column(db.String())
 
 	user = db.relationship('User', backref='profile')
 
@@ -365,3 +371,14 @@ def create_user_profile(user_id, first_name=None, last_name=None, date_of_birth=
 	except:
 		return False
 
+def set_affliation(user_id, org_id):
+	try:
+		u = User.query.filter(User.user_id==user_id).first()
+		o = User.query.filter(User.user_id==org_id).first()
+		if o.user_type != User.USER_TYPE_ORGANIZATION:
+			return False
+		o.members.append(u)
+		db.session.commit()
+		return True
+	except:
+		return False
