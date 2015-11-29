@@ -1,0 +1,118 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/project_profile.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/project_profile.css') }}"> 
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<input type="hidden" value="{{proj_id}}">
+
+
+	<div id="main-wrapper">
+		<div class="project-profile">
+			<div id="profile-left" class="float-left">
+				<div class="profile-picture">
+					<img src="{{ url_for('static', filename='img/reindeer_print.jpg') }}">
+				</div>
+			</div>
+			<div id="profile-right" class="float-right">
+				<div class="large-field">
+					<div class="field-caption">
+						Project Name
+					</div>
+					<div id="project-title">
+						Help children of Africa!
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Description
+					</div>
+					<div id="project-description">
+						This project is seriously awesome
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Location
+					</div>
+					<div id="project-location">
+						South Africa
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Advocating
+					</div>
+					<div id="project-category">
+						#Africa
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Managed by
+					</div>
+					<div id="project-owner">
+						Prajogo Tio
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Organisation
+					</div>
+					<div id="project-charity-org">
+						Reddish Cross
+					</div>
+				</div>
+
+				<div class="project-statistics">
+					<div id="money-bar">
+						<div id="money-goal"></div>
+						<div id="money-gauge"></div>
+					</div>
+					<div class="stat-field float-left">
+						<div id="donation-goal">$152,233</div>
+						<div class="stat-caption">Donation Goal</div>
+					</div>
+					<div class="stat-field float-left">
+						<div id="donation-collected">140,000</div>
+						<div class="stat-caption">Collected</div>
+					</div>
+					<div class="stat-field float-left">
+						<div id="number-of-donor">215</div>
+						<div class="stat-caption">Donors</div>
+					</div>
+					<div class="clear-fix"></div>
+				</div>
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+		<div class="project-information">
+		</div>
+	</div>
+
+
+	<!-- This is header part -->
+	<div id="head-wrapper" onclick="window.location='/'">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div id="head-login-link" class="float-right head-menu-href">
+			<a href="/login">Login</a>
+		</div>
+		<div id="head-register-link" class="float-right head-menu-href">
+			<a href="/register">Register</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+</body>
+</html>

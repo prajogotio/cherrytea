@@ -1,0 +1,27 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+</head>
+<body>
+	<input type='file' id="file">
+	<input type="submit" id="submit">
+	<script>
+		$('#submit').click(function(){
+			var f = $('#file')[0].files[0];
+			var formData = new FormData();
+			formData.append('file', f);
+			$.ajax({
+				url:'http://'+location.host+'/upload',
+				data: formData,
+				method: 'POST',
+				contentType:false,
+				processData:false
+			}).done(function(msg){
+				console.log('success', msg);
+			}).fail(function(msg){
+				console.log('fail', msg);
+			})
+		});
+	</script>
+</body>
+</html>

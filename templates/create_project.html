@@ -1,0 +1,73 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/create_project.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/create_project.css') }}"> 
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+	<div id="main-wrapper">
+		<div class="main-title">
+			Project Registration
+		</div>
+		<div id="inner-wrapper">
+			<div class="field-wrapper">
+				<div class="field-label">Project Title</div>
+				<input id="proj-name-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Short Description</div>
+				<input id="proj-desc-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Category</div>
+				<input id="category-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Location</div>
+				<input id="location-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Name of Charity Organisation</div>
+				<input id="charity-org-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Upload Project Logo</div>
+				<input class="field-upload" id="proj-pic-file" type="file">
+				<div id="proj-pic-file-info" class="field-upload-info">No project picture yet.</div>
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Donation Goal [in terms of USD]</div>
+				<input id="donation-goal-input" class="field-input" type="text">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Main Profile</div>
+				<textarea id="other-info-input" class="field-textarea"></textarea>
+			</div>
+			<div class="field-wrapper">
+				<input id="submit-button" class="field-submit float-right" type="submit">
+				<div class="clear-fix"></div>
+			</div>
+		</div>
+		<div id="bg-01">
+			<img src="{{ url_for('static', filename='img/create-proj-bg-01.png') }}">
+		</div>
+		<div id="bg-02">
+			<img src="{{ url_for('static', filename='img/create-proj-bg-02.png') }}">
+		</div>
+
+	</div>
+
+	<!-- This is header part -->
+	<div id="head-wrapper" onclick="window.location='/'">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+</body>
+</html>

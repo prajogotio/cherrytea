@@ -114,7 +114,7 @@ This section serves as documentation on the DB schema design.
 proj
     (proj_id, owner_id, date_created, proj_name, proj_desc, location, category,
      charity_org, donation_total, donation_goal, status, num_followers, 
-     other_info, paypal_id)
+     other_info, paypal_id, proj_pic)
 
 Notes:
  *  status     : ongoing/concluded

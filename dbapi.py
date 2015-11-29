@@ -66,6 +66,7 @@ class Project(db.Model):
 	num_followers = db.Column(db.Integer,default=0)
 	other_info = db.Column(db.Text)
 	paypal_id = db.Column(db.Integer, db.ForeignKey('paypal.paypal_id'))
+	proj_pic = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
 
 	owner = db.relationship('User', backref='projects')
 	followers = db.relationship('User', secondary=proj_follower, backref='following')
@@ -267,7 +268,7 @@ def create_user(username,password,user_type='ind',paypal_id=None,date_joined=Non
 
 
 # Project registration
-def create_project(owner_id, proj_name, proj_desc, location, category, donation_goal, charity_org=None):
+def create_project(owner_id, proj_name, proj_desc, location, category, donation_goal, charity_org=None, other_info=None, proj_pic=None):
 	try:
 		params = {'proj_name':proj_name,
 				  'proj_desc':proj_desc,
@@ -275,15 +276,17 @@ def create_project(owner_id, proj_name, proj_desc, location, category, donation_
 				  'category':category,
 				  'charity_org':charity_org,
 				  'donation_goal':donation_goal,
+				  'other_info':other_info,
+				  'proj_pic':proj_pic,
 				  'date_created':datetime.datetime.utcnow()}
 		p = Project(**params)
 		u = User.query.filter(User.user_id==owner_id).first()
 		u.projects.append(p)
 		db.session.add(p)
 		db.session.commit()
-		return True
+		return {'success':True, 'proj_id':p.proj_id}
 	except:
-		return False
+		return {'success':False}
 
 
 def follow_project(user_id, proj_id):
@@ -383,3 +386,13 @@ def set_affliation(user_id, org_id):
 		return True
 	except:
 		return False
+
+def record_prof_pic(url):
+	try:
+		params = {'pic_url':url}
+		pp = ProfilePicture(**params)
+		db.session.add(pp)
+		db.session.commit()
+		return {'success':True, 'pic_id':pp.pic_id}
+	except:
+		return {'success':False}

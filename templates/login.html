@@ -1,0 +1,50 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/login.css') }}"> 
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+	<!-- Login panel -->
+	<div id="main-wrapper">
+		<div id="login-panel">
+			<div id="login-panel-logo">
+				<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+			</div>
+			<div id="login-panel-header">
+				Welcome back!
+			</div>
+			<div id="login-panel-username">
+				<div class="float-left login-label">username:</div><input id="login-panel-username-input" type="text" class="float-left login-input">
+				<div class="clear-fix"></div>
+			</div>
+			<div id="login-panel-password">
+				<div class="float-left login-label">password:</div><input id="login-panel-password-input" type="password" class="float-left login-input">
+				<div class="clear-fix"></div>
+			</div>
+			<div id="login-panel-submit">
+				<input id="login-panel-submit-button" type="submit" value="login" class="login-submit">
+			</div>
+			<div id="login-panel-notification">
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- This is header part -->
+	<div id="head-wrapper" onclick="window.location='/'">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div id="head-register-link" class="float-right head-menu-href">
+			<a href="#">Register</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+</body>
+</html>

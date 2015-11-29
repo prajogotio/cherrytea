@@ -5,7 +5,9 @@ var values = {};
 
 function display(d) {
 	$(d).css('display','block');
-	setTimeout(function(){ $(d).css('opacity', '1'); }, 100);
+	setTimeout(function(){ $(d).css({
+		'opacity': '1',
+		'top': '0'})}, 100);
 }
 
 function hide(d) {
@@ -13,6 +15,8 @@ function hide(d) {
 }
 
 $(document).ready(function() {
+
+	display('#regform-user-type');
 
 	$('#org-choice').click(function() {
 		values.user_type = 'org';
