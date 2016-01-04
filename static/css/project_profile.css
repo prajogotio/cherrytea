@@ -106,6 +106,155 @@ body {
 }
 
 
+
+/* Project Updates */
+
+.project_updates_title{
+    margin-top: 90px;
+    width:70%;
+	position:relative;
+    left: 15%;
+    text-align: center;
+    
+    border: 2px solid darkslategray;
+    color: black;
+    padding: 20px;
+    font-size: 20px;
+    
+}
+
+.project_update{
+    padding-top: 20px;
+    width:70%;
+	position:relative;
+	left:15%;
+}
+
+.post{
+    
+    padding-top: 60px;
+    
+}
+
+
+.post_title{
+    
+    color: antiquewhite;
+    border: 2px solid white;
+    text-align: center;
+    padding: 20px;
+    background: #FF4620;
+    
+    
+}
+
+
+.post_post{
+    
+    border: 2px solid white;
+    color: black;
+    text-align: justify;
+    background: white;
+    padding-top: 10px;
+    
+}
+
+.post_date{
+    
+    font-style: italic;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+
+
+/* Comments */
+
+
+.comment_section{
+
+    margin-top: 100px;
+    width:70%;
+	position:relative;
+	left:15%;
+    
+}
+
+.comment_section_title{
+    text-align: center;
+    border: 2px solid midnightblue;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: midnightblue;
+    color: white;
+}
+
+
+.comment{
+    margin-top: 20px;
+    background-color: dodgerblue;
+    padding: 20px;
+    
+}
+.comment_user{
+    
+    font-weight: bold;
+    color: white;
+}
+
+.comment_text{
+    text-align: justify;
+    padding-top: 10px;
+}
+
+.comment_date{
+    
+    
+    font-style: italic;
+    font-size: 15px;
+    padding-top: 10px;
+    
+}
+
+
+/* Posting Comments */
+
+.post_comment{
+    margin-top: 50px;
+}
+
+.post_comment_title{
+    
+    font-style: italic;
+    
+}
+
+.new_comment_data{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.user_prompt{
+    font-size: 15px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+.submit_comment_button{
+    margin-top: 15px;
+    background: green;
+    color: white;
+    font-family:"Roboto Slab",courier;
+	font-size: 15px;
+    padding: 10px;
+    border: 2px solid white;
+    width: 200px;
+}
+
 /**
  * header styling
  */

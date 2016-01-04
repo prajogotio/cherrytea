@@ -1,0 +1,195 @@
+* {
+	box-sizing:border-box;
+	font-family:"Roboto Slab",courier;
+	color:black;
+}
+
+body {
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+
+#main-wrapper {
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	min-width:800px;
+	min-height:500px;
+	font-size:20px;
+	padding-top:90px;
+}
+
+
+.user-profile {
+	width:70%;
+	position:relative;
+	left:15%;
+}
+
+#profile-left, #profile-right {
+	position:relative;
+}
+
+#profile-left {
+	width:37%;
+}
+
+#profile-right {
+	width:63%;
+	padding-top:20px;
+	padding-left:20px;
+}
+
+.profile-picture {
+	width:100%;
+}
+
+.profile-picture img {
+	width:100%;
+}
+
+.field-caption {
+	font-size:16px;
+	font-weight:lighter;
+}
+
+.large-field, .normal-field {
+	margin-bottom:20px;
+}
+
+.large-field {
+	font-size:23px;
+}
+
+.normal-field {
+	font-size:20px;
+}
+
+
+
+/* User Information */
+
+.user-information{
+    width:70%;
+	position:relative;
+	left:15%;
+    margin-top: 70px;
+}
+
+/* Biography */
+
+.user_biography_title{
+
+    padding: 20px;
+    text-align: center;
+    background-color: darkolivegreen;
+    color: white;
+}
+
+.user_biography_text{
+    
+    
+    margin-top: 20px;
+    text-align: justify;
+    
+
+}
+
+
+/* Recently Backed Projects */
+
+
+.recently_backed_project{
+    
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
+.recently_backed_title{
+    
+    padding: 20px;
+    text-align: center;
+    background-color: darkslategray;
+    color: white;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+
+.recently_backed_project > img {
+    
+    width: 32.5%;
+    border: 0px solid black;
+}
+
+
+/**
+ * header styling
+ */
+
+#head-wrapper {
+	width:100%;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	color:white;
+	font-size:25px;
+	padding-top:8px;
+	padding-left:8px;
+	padding-right:8px;
+	min-width:800px;
+	background-color:#FF4620;
+}
+
+#head-wrapper a {
+	text-decoration:none;
+	color:white;
+	font-weight:lighter;
+}
+
+.head-menu-href {
+	margin-left:12px;
+	width:120px;
+	text-align: center;
+	border-radius:10px;
+	transition:background-color 0.5s;
+}
+
+.head-menu-href:hover {
+	background-color:#97AD78;
+}
+
+#head-logo {
+	width:170px;
+	height:100%;
+	cursor:pointer;
+}
+
+#head-logo img {
+	position:relative;
+	width:100%;
+	right:10px;
+	bottom:8px;
+}
+
+
+.float-left {
+	float:left;
+}
+
+.float-right {
+	float:right;
+}
+
+.clear-fix {
+	clear:both;
+}
+
