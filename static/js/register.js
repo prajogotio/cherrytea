@@ -59,21 +59,6 @@ $(document).ready(function() {
         }
 	});
 
-/*
-	$('#regform-password-conf-input').keyup(function(e) {
-        if ($('#regform-password-input').val().length == this.value.length) {
-		    $('#regform-user-pass-next').css({'visibility': 'visible'});
-			setTimeout(function(){
-				$('#regform-user-pass-next').css({'opacity': '1'});
-			}, 100);
-		    }
-		else {
-			$('#regform-user-pass-next').css({'visibility': 'hidden',
-												 'opacity': '0'});
-		}
-	});
-	*/
-
 	$('#regform-verif-next-button').click(function(){
 	    var checksPassed = true;
 	    var filled_err = $('#regform-verif-error');
