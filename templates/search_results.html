@@ -1,0 +1,56 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/search_results.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/search_results.css') }}"> 
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<input type="hidden" value="{{proj_id}}">
+
+
+	<div id="main-wrapper">
+        
+        <div class="search">
+            <input id="search_bar" placeholder="Not what you're looking for? Search again!" >
+            <button id="search_button" type="submit" onclick="search_clicked()">Search</button>
+        </div>
+        
+        <div class="search_results">
+            <div id="search_results_title"> Search Results</div>
+            <div id="num_of_results">Displaying 1 to 23 of 2000 results.</div>
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            
+        </div>
+    
+                
+               
+	</div>
+
+
+	<!-- This is header part -->
+	<div id="head-wrapper" onclick="window.location='/'">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+		<div id="head-login-link" class="float-right head-menu-href">
+			<a href="/login">Login</a>
+		</div>
+		<div id="head-register-link" class="float-right head-menu-href">
+			<a href="/register">Register</a>
+		</div>
+		<div class="clear-fix"></div>
+	</div>
+</body>
+    
+</html>

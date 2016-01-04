@@ -74,6 +74,18 @@ def app_create_project_submission():
 def app_view_project(proj_id):
 	return render_template('project_profile.html', proj_id=proj_id)
 
+@app.route('/user/<int:user_id>')
+def app_view_user(user_id):
+	return render_template('user_profile.html', user_id=user_id)
+
+@app.route('/user_charity/<int:user_charity_id>')
+def app_view_user_charity(user_charity_id):
+	return render_template('user_charity_profile.html', user_charity_id=user_charity_id)
+
+@app.route('/search_results')
+def app_view_search_results():
+	return render_template('search_results.html')
+
 
 @app.route('/test_upload')
 def test_upload():
