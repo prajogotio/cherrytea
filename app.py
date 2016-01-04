@@ -74,6 +74,10 @@ def app_create_project_submission():
 def app_view_project(proj_id):
 	return render_template('project_profile.html', proj_id=proj_id)
 
+@app.route('/project/<int:proj_id>/payment')
+def app_view_project_payment(proj_id):
+	return render_template('payment.html', proj_id=proj_id)
+
 @app.route('/user/<int:user_id>')
 def app_view_user(user_id):
 	return render_template('user_profile.html', user_id=user_id)
