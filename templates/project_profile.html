@@ -1,11 +1,9 @@
-<html>
-<head>
-	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+{% extends "base.html" %}
+{% block statics %}
 	<script src="{{ url_for('static', filename='js/project_profile.js') }}"></script>
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/project_profile.css') }}"> 
-	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
-</head>
-<body>
+{% endblock %}
+{% block main_body %}
 	<input type="hidden" value="{{proj_id}}">
 
 
@@ -153,24 +151,4 @@
                 
                
 	</div>
-
-
-	<!-- This is header part -->
-	<div id="head-wrapper" onclick="window.location='/'">
-		<div id="head-logo" class="float-left">
-			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
-		</div>
-		<div id="head-menu-icon" class="float-right head-menu-href">
-			<a href="#">Menu</a>
-		</div>
-		<div id="head-login-link" class="float-right head-menu-href">
-			<a href="/login">Login</a>
-		</div>
-		<div id="head-register-link" class="float-right head-menu-href">
-			<a href="/register">Register</a>
-		</div>
-		<div class="clear-fix"></div>
-	</div>
-</body>
-    
-</html>
+{% endblock %}

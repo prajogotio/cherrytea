@@ -40,6 +40,7 @@ def app_create_user():
 def app_user_login():
 	res = get_user_id(request.form['username'], request.form['password'])
 	if res['success']:
+		session['logged_in'] = True
 		session['user_id'] = res['user_id']
 		session['username'] = request.form['username']
 	return jsonify(success=res['success'])
@@ -86,10 +87,14 @@ def app_view_user_charity(user_charity_id):
 def app_view_search_results():
 	return render_template('search_results.html')
 
-
 @app.route('/test_upload')
 def test_upload():
 	return render_template('test_upload.html')
+
+@app.route('/clear_session')
+def clear_session():
+	session.clear();
+	return make_response("Session cleared.")
 
 if __name__ == '__main__':
 	server = WSGIServer(('',5000),app)

@@ -1,0 +1,44 @@
+<html>
+<head>
+	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+	
+	{% block statics %}{% endblock %}
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	{% block main_body %}{% endblock %}
+
+	<!-- This is the header-menu part of the landing page -->
+	<div id="head-wrapper">
+		<div id="head-logo" class="float-left">
+			<img src="{{ url_for('static', filename='img/logo-white.png') }}" onclick="window.location.href='/'">
+		</div>
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+
+		{% if not session.logged_in %}
+		<!-- case 1: user is not logged in -->
+		<div id="head-login-link" class="float-right head-menu-href">
+			<a href="/login">Login</a>
+		</div>
+		<div id="head-signup-link" class="float-right head-menu-href">
+			<a href="/register">Register</a>
+		</div>
+		{% else %}
+		<!-- case 2: logged in -->
+		<div id="head-user-profile-link" class="float-right head-menu-href">
+			<a href="#">{{ session.username }}</a>
+		</div>
+		<div class="float-right head-menu-href">
+			<a hreft="#">Notification</a>
+		</div>
+		<div class="float-right head-menu-href">
+			<a hreft="#">Projects</a>
+		</div>
+		{% endif %}
+		<div class="clear-fix"></div>
+	</div>
+</body>
+</html>

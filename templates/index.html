@@ -1,12 +1,12 @@
-<html>
-<head>
-	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
+{% extends "base.html" %}
+{% block statics %}
 	<script src="{{ url_for('static', filename='js/cherrytea.js')}}"></script>
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/index.css') }}">
-	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
-</head>
-<body>
-	<!-- This is the landing page -->
+{% endblock %}
+{% block main_body %}
+	<!-- case 1: not logged in -->
+	<!-- Show landing page -->
+	{% if not session.logged_in %}
 	<div id="landing-page" class="main-frame">
 		<div id="landing-page-background" class="main-frame-bg">
 			<video id="landing-page-bg-vid" autoplay muted loop onloadstart="this.playbackRate = 0.88">
@@ -30,23 +30,23 @@
 			<img src="{{ url_for('static', filename='img/arrow-down.png') }}">
 		</div>
 	</div>
+	{% else %}
+	<!-- case 2: logged in, show home page -->
 
-	<!-- This is the header-menu part of the landing page -->
-	<div id="head-wrapper">
-		<div id="head-logo" class="float-left">
-			<img src="{{ url_for('static', filename='img/logo-white.png') }}">
+	<div id="home-page" class="main-frame">
+		<div id="home-page-background" class="main-frame-bg">
 		</div>
-		<div id="head-menu-icon" class="float-right head-menu-href">
-			<a href="#">Menu</a>
+
+		<div id="home-search-wrapper">
+			<input type='text' id="landing-search-input" class="float-left" value="search for charity here">
+			<input type='submit' id="landing-search-submit" class="float-left" value="search">
+			<div class="clear-fix"></div>
 		</div>
-		<div id="head-login-link" class="float-right head-menu-href">
-			<a href="/login">Login</a>
+
+		<div id="home-recent-project-list">
+			<div></div>
 		</div>
-		<div id="head-signup-link" class="float-right head-menu-href">
-			<a href="/register">Register</a>
-		</div>
-		<div class="clear-fix"></div>
 	</div>
+	{% endif %}
 
-</body>
-</html>
+{% endblock %}
