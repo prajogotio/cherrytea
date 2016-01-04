@@ -51,6 +51,27 @@ body, #head_wrapper {
 	font-weight:lighter;
 }
 
+.regform-item-error {
+	font-size:20px;
+	color:rgba(255,26,26,1);
+	padding:10px;
+	transition : opacity 0.3s;
+	opacity : 0;
+	visibility : hidden;
+	display : none;
+}
+
+.regform-error-bottom {
+	font-size:20px;
+	color:rgba(255, 26, 26, 1);
+	padding:10px;
+	text-align: right;
+	transition: opacity 0.3s;
+	visibility: hidden;
+	opacity: 0;
+	display : none;
+}
+
 #org-choice, #person-choice {
 	width:40%;
 	float:left;
@@ -84,6 +105,7 @@ body, #head_wrapper {
 	border-radius:0 0 10px 10px;
 	color:black;
 }
+
 
 .regform-next-button {
 	width:40%;
@@ -194,6 +216,6 @@ body, #head_wrapper {
 
 #regform-user-pass-next {
 	transition:opacity 0.5s;
-	opacity:0;
-	visibility:hidden;
+	opacity:1;
+	visibility:visible;
 }

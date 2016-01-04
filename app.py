@@ -6,7 +6,7 @@ import os, random
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = 'SECRET KEY FOR CHERRYTEA SESSION'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/cherryteadb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cherryteadb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['UPLOAD_FOLDER'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static/prof_pic'))
 
