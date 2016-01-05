@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!--<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/payment.js')}}"></script>-->
+{% extends "base.html" %}
+{% block statics %}
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/payment.css') }}">
-	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
-</head>
-<body>
+{% endblock %}
+{% block main_body %}
     <!-- Payment page -->
     <div id="payment-body" class="main-frame">
 		<div class="payment-item-header">
@@ -60,23 +56,4 @@
 
 	</div>
 
-
-
-    <!-- This is the header-menu part -->
-	<div id="head-wrapper">
-		<div id="head-logo" class="float-left">
-			<!--<img src="{{ url_for('static', filename='img/logo-white.png') }}">-->
-		</div>
-		<div id="head-menu-icon" class="float-right head-menu-href">
-			<a href="#">Menu</a>
-		</div>
-		<div id="head-login-link" class="float-right head-menu-href">
-			<a href="/login">Login</a>
-		</div>
-		<div id="head-signup-link" class="float-right head-menu-href">
-			<a href="/register">Register</a>
-		</div>
-		<div class="clear-fix"></div>
-	</div>
-</body>
-</html>
+{% endblock %}
