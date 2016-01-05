@@ -34,17 +34,79 @@
 	<!-- case 2: logged in, show home page -->
 
 	<div id="home-page" class="main-frame">
-		<div id="home-page-background" class="main-frame-bg">
-		</div>
+		<div class="search-section">
 
-		<div id="home-search-wrapper">
-			<input type='text' id="landing-search-input" class="float-left" value="search for charity here">
-			<input type='submit' id="landing-search-submit" class="float-left" value="search">
-			<div class="clear-fix"></div>
 		</div>
+		<div class="main-body-section">
+			<div class="title-caption">
+				Fresh Projects
+			</div>
+			<div class="project-list">
+				<div class="project-item">
+					<div class="project-photo">
+						<img src="{{ url_for('static', filename='img/t01.jpg') }}">
+					</div>
+					<div class="project-title">
+						Save CHANGHONG
+					</div>
+					<div class="project-backing">
+						591 <span class="project-backing-caption">donators</span>
+					</div>
+					<div class="project-type">
+						Charity
+					</div>
+					<div class="project-description">
+						Saving changhong is a project initiated to help him.
+					</div>
+				</div>
 
-		<div id="home-recent-project-list">
-			<div></div>
+
+				<div class="clear-fix"></div>
+			</div>
+
+			<div class="title-caption">
+				Popular Projects
+			</div>
+			<div class="project-list">
+				
+				<div class="project-item">
+					<div class="project-photo">
+						<img src="{{ url_for('static', filename='img/t03.jpg') }}">
+					</div>
+					<div class="project-title">
+						Save CHANGHONG
+					</div>
+					<div class="project-backing">
+						591 <span class="project-backing-caption">donators</span>
+					</div>
+					<div class="project-type">
+						Charity
+					</div>
+					<div class="project-description">
+						Saving changhong is a project initiated to help him.
+					</div>
+				</div>
+
+				<div class="project-item">
+					<div class="project-photo">
+						<img src="{{ url_for('static', filename='img/t02.jpg') }}">
+					</div>
+					<div class="project-title">
+						Save CHANGHONG
+					</div>
+					<div class="project-backing">
+						591 <span class="project-backing-caption">donators</span>
+					</div>
+					<div class="project-type">
+						Charity
+					</div>
+					<div class="project-description">
+						Saving changhong is a project initiated to help him.
+					</div>
+				</div>
+
+				<div class="clear-fix"></div>
+			</div>
 		</div>
 	</div>
 	{% endif %}

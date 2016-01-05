@@ -139,3 +139,73 @@ body, #head-wrapper {
 	left:-63px;
 	opacity:0.6;
 }
+
+
+#home-page {
+	background-color:white;
+	overflow:scroll;
+	padding-top:80px;
+}
+
+.main-body-section {
+	width:86%;
+	margin-left:7%;
+}
+
+.title-caption {
+	font-size:30px;
+	width:100%;
+	padding:8px;
+	background-color:rgb(255,223,80);
+	border:1px solid rgba(0,0,0,0.3);
+	border-radius:10px;
+}
+
+.project-item {
+	width:300px;
+	overflow:hidden;
+	border-radius:15px;
+	float:left;
+	margin:20px;
+	border:1px solid rgba(0,0,0,0.3);
+	cursor:pointer;
+}
+
+.project-photo, .project-photo img {
+	width:100%;
+	overflow:hidden;
+}
+
+.project-photo {
+	height:330px;
+}
+
+.project-title, .project-description {
+	padding:8px;
+}
+.project-title {
+	font-size:18px;
+	font-family:helvetica;
+	font-weight:;
+}
+
+.project-backing {
+	float:right;
+	padding-right:8px;
+	color:green;
+}
+
+.project-backing-caption {
+	font-size: 11px;
+	color:black;
+}
+
+.project-type {
+	float:left;
+	padding-left:8px;
+}
+
+.project-description {
+	clear:both;
+	font-style:italic;
+}

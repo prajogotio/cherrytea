@@ -38,7 +38,7 @@ body {
 
 .head-menu-href {
 	margin-left:12px;
-	width:120px;
+	min-width:120px;
 	text-align: center;
 	border-radius:10px;
 	transition:background-color 0.5s;
