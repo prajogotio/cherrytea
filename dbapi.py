@@ -1,5 +1,10 @@
 from app import db
-import csv, datetime, os
+import csv, datetime, os, time
+
+def setAttributes(obj, params):
+	for k in params:
+		if (params.get(k)):
+			setattr(obj, k, params.get(k))
 
 # Relationship
 proj_follower = db.Table('proj_follower',
@@ -66,10 +71,11 @@ class Project(db.Model):
 	num_followers = db.Column(db.Integer,default=0)
 	other_info = db.Column(db.Text)
 	paypal_id = db.Column(db.Integer, db.ForeignKey('paypal.paypal_id'))
-	proj_pic = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
+	proj_pic_id = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
 
 	owner = db.relationship('User', backref='projects')
 	followers = db.relationship('User', secondary=proj_follower, backref='following')
+	proj_pic = db.relationship('ProfilePicture', backref='proj')
 
 	def __init__(self, **kwargs):
 		for key in kwargs:
@@ -189,6 +195,7 @@ class UserProfile(db.Model):
 	last_name = db.Column(db.String())
 	date_of_birth = db.Column(db.DateTime)
 	bio = db.Column(db.Text)
+	advocate = db.Column(db.Text)
 	profile_pic_id = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
 	address = db.Column(db.String())
 
@@ -268,8 +275,8 @@ def create_user(username,password,user_type='ind',paypal_id=None,date_joined=Non
 
 
 # Project registration
-def create_project(owner_id, proj_name, proj_desc, location, category, donation_goal, charity_org=None, other_info=None, proj_pic=None):
-	try:
+def create_project(owner_id, proj_name, proj_desc, location, category, donation_goal, charity_org=None, other_info=None, proj_pic_id=None):
+	#try:
 		params = {'proj_name':proj_name,
 				  'proj_desc':proj_desc,
 				  'location':location,
@@ -277,7 +284,7 @@ def create_project(owner_id, proj_name, proj_desc, location, category, donation_
 				  'charity_org':charity_org,
 				  'donation_goal':donation_goal,
 				  'other_info':other_info,
-				  'proj_pic':proj_pic,
+				  'proj_pic_id':proj_pic_id,
 				  'date_created':datetime.datetime.utcnow()}
 		p = Project(**params)
 		u = User.query.filter(User.user_id==owner_id).first()
@@ -285,8 +292,8 @@ def create_project(owner_id, proj_name, proj_desc, location, category, donation_
 		db.session.add(p)
 		db.session.commit()
 		return {'success':True, 'proj_id':p.proj_id}
-	except:
-		return {'success':False}
+	#except:
+	#	return {'success':False}
 
 
 def follow_project(user_id, proj_id):
@@ -358,16 +365,10 @@ def record_donation(user_id, proj_id, amount, paypal_id=None):
 	except:
 		return False
 
-def create_user_profile(user_id, first_name=None, last_name=None, date_of_birth=None, bio=None, profile_pic=None):
+def create_user_profile(user_id, params):
 	try:
-		params = {'first_name':first_name,
-				  'last_name':last_name,
-				  'date_of_birth':date_of_birth,
-				  'bio':bio,
-				  'profile_pic':profile_pic}
 		p = UserProfile(**params)
 		u = User.query.filter(User.user_id==user_id).first()
-		#p.user.append(u)
 		u.profile.append(p)
 		db.session.add(p)
 		db.session.commit()
@@ -396,3 +397,110 @@ def record_prof_pic(url):
 		return {'success':True, 'pic_id':pp.pic_id}
 	except:
 		return {'success':False}
+
+def get_user_profile(user_id):
+	#try:
+	up = UserProfile.query.filter(UserProfile.user_id==user_id).first()
+	if up:
+		res =  {'success':True,
+				'found':True,
+				'first_name':up.first_name,
+				'last_name':up.last_name,
+				'full_name':up.first_name +' '+ up.last_name,
+				'bio':up.bio,
+				'advocate':up.advocate,
+				'address':up.address}
+		if up.date_of_birth:
+			res['date_of_birth']=time.strftime("%d %b %Y",up.date_of_birth.timetuple())
+			res['date_of_birth_us']=time.strftime("%Y-%m-%d",up.date_of_birth.timetuple())
+		
+		if up.profile_pic_id:
+			pp = ProfilePicture.query.filter(ProfilePicture.pic_id==up.profile_pic_id).first()
+			res['profile_pic_url'] = pp.pic_url
+		return res
+	return {'success':False,'found':False}
+	# except:
+	# 	return {'success':False}
+
+def get_username(user_id):
+	try:
+		u = User.query.filter(User.user_id==user_id).first()
+		if u:
+			return u.username
+		return None
+	except:
+		return None
+
+def get_membership(user_id):
+	try:
+		u = User.query.filter(User.user_id==user_id).first()
+		if u:
+			return u.user_type
+		return None
+	except:
+		return None
+
+def get_num_of_backed_projects(user_id):
+	try:
+		x = db.engine.execute('SELECT COUNT(DISTINCT proj_id) FROM donation WHERE donator_id=='+user_id)
+		res = x.fetchone()
+		return res[0]
+	except:
+		return 0
+
+def get_recently_backed_projects(user_id):
+	try:
+		x = db.engine.execute('SELECT proj_id, date_donated, amount FROM donation WHERE donator_id=='+user_id+' ORDER BY date_donated desc LIMIT 3')
+		res = [{'proj_id':row[0], 
+				'date_donated':row[1], 
+				'amount':row[2]} 
+				for row in x]
+		return res
+	except:
+		return None
+
+def get_join_date(user_id):
+	try:
+		u = User.query.filter(User.user_id==user_id).first();
+		if u:
+			return time.strftime("%b %Y", u.date_joined.timetuple())
+		return None
+	except:
+		return None
+
+def update_user_profile(user_id, params):
+	# try:
+	up = UserProfile.query.filter(UserProfile.user_id==user_id).first()
+	if up:
+		setAttributes(up, params)
+		db.session.commit()
+		return {'success':True}
+	else:
+		return {'success':create_user_profile(user_id, params)}
+	# except:
+	# 	return {'success':False}
+
+def get_project_profile(proj_id):
+	p = Project.query.filter(Project.proj_id==proj_id).first()
+	if p:
+		res = {'success':False,
+			   'proj_id':p.proj_id,
+			   'owner_id':p.owner_id,
+			   'owner_username':p.owner.username,
+			   'date_created':time.strftime('%d %b %Y', p.date_created.timetuple()),
+			   'proj_name':p.proj_name,
+			   'proj_desc':p.proj_desc,
+			   'location':p.location,
+			   'category':p.category,
+			   'charity_org':p.charity_org,
+			   'donation_total':p.donation_total,
+			   'donation_goal':p.donation_goal,
+			   'status':p.status,
+			   'num_followers':p.num_followers,
+			   'other_info':p.other_info,
+			   }
+		if p.proj_pic_id:
+			pic = ProfilePicture.query.filter(ProfilePicture.pic_id==p.proj_pic_id).first()
+			res['proj_pic_url'] = pic.pic_url
+		return res
+	return {'success':False}

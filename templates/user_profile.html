@@ -5,10 +5,21 @@
 {% endblock %}
 {% block main_body %}
 	<div id="main-wrapper">
+
+{% if info.profile_owner and not info.profile.found %}
+		<div class="user-notice">
+			You have not updated your profile yet. Click <a href='/update/user_profile'>here</a> to update!
+		</div>
+{% endif %}
+
 		<div class="user-profile">
 			<div id="profile-left" class="float-left">
 				<div class="profile-picture">
-					
+				{% if info.profile.profile_pic_url %}
+					<img src="{{ info.profile.profile_pic_url }}">
+				{% else %}
+					<img src="{{ url_for('static', filename='img/no_prof_pic.jpg') }}">
+				{% endif %}
 				</div>
 			</div>
 			<div id="profile-right" class="float-right">
@@ -17,7 +28,15 @@
 						Username
 					</div>
 					<div id="username">
-						Rich_Santa_Boi92
+						{{ info.username if info.username != None else 'Invalid User Profile'}}
+					</div>
+				</div>
+				<div class="normal-field">
+					<div class="field-caption">
+						Name
+					</div>
+					<div id="username">
+						{{ info.profile.full_name }}
 					</div>
 				</div>
 
@@ -26,7 +45,16 @@
 						Join Date:
 					</div>
 					<div id="user-join-date">
-						25/12/2016
+						{{ info.join_date if info.join_date != None else '-' }}
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Date of birth:
+					</div>
+					<div id="user-join-date">
+						{{ info.profile.date_of_birth if info.profile.date_of_birth != None else '-' }}
 					</div>
 				</div>
 
@@ -35,7 +63,7 @@
 						Location
 					</div>
 					<div id="user-location">
-						Somewhere between Indonesia and Singapore
+						{{ info.profile.address if info.profile.address != None else '-' }}
 					</div>
 				</div>
 
@@ -44,7 +72,7 @@
 						Advocating
 					</div>
 					<div id="user-advocate">
-						Human Rights, Racial Equality
+						{{ info.profile.advocate if info.profile.advocate != None else '-' }}
 					</div>
 				</div>
 
@@ -53,7 +81,7 @@
 						Membership Type
 					</div>
 					<div id="user-type">
-						Private Individual
+						{{ info.membership }}
 					</div>
 				</div>
 
@@ -62,7 +90,7 @@
 						Number of Projects Backed:
 					</div>
 					<div id="user-projects-backed">
-						1291
+						{{ info.num_of_backed_projects }}
 					</div>
 				</div>
 
@@ -70,21 +98,24 @@
 			</div>
 			<div class="clear-fix"></div>
 		</div>
+
 		<div class="user-information">
             <div class="user_biography">
                 <div class="user_biography_title">Biography</div>
                 <div class="user_biography_text">
-                This is my biography, this is my story, this is my life as a rich santa claus. Helping the world since 1992. Born and raised in the north pole, I've travelled much to Indonesia and Singapore, helping kids get their presents ever since. Being able to give to every child, naughty or nice, presents is my dream and passion.
+                {{ info.profile.bio }}
                 </div>
             </div>
             <div class="recently-backed">
                 <div class="recently_backed_title">Recently Backed Projects</div>
                 <div class="recently_backed_project">
                 <!-- Show only 3 Recently Backed Projects  -->
-                   
+
 				</div>
             </div>
         </div>   
 	</div>
+
+	<input type="hidden" name="recent_backed_list" value={{ info.recently_backed_projects }}>
 
 {% endblock %}

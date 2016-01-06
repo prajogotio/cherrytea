@@ -16,7 +16,7 @@
 			}
 			this.value = "Logging in...";
 			$.ajax({
-				'url': 'http://'+location.host+'/user_login',
+				'url': 'http://'+location.host+'/user/login',
 				'data': values,
 				'method': "POST"
 			}).done(function(msg) {

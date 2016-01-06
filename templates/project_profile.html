@@ -4,14 +4,14 @@
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/project_profile.css') }}"> 
 {% endblock %}
 {% block main_body %}
-	<input type="hidden" value="{{proj_id}}">
-
 
 	<div id="main-wrapper">
 		<div class="project-profile">
 			<div id="profile-left" class="float-left">
 				<div class="profile-picture">
-					<img src="{{ url_for('static', filename='img/reindeer_print.jpg') }}">
+					{% if info.proj_pic_url %}
+					<img src="{{ info.proj_pic_url }}">
+					{% endif %}
 				</div>
 			</div>
 			<div id="profile-right" class="float-right">
@@ -20,7 +20,7 @@
 						Project Name
 					</div>
 					<div id="project-title">
-						Help children of Africa!
+						{{ info.proj_name }}
 					</div>
 				</div>
 
@@ -29,7 +29,7 @@
 						Description
 					</div>
 					<div id="project-description">
-						This project is seriously awesome
+						{{ info.proj_desc }}
 					</div>
 				</div>
 
@@ -38,16 +38,25 @@
 						Location
 					</div>
 					<div id="project-location">
-						South Africa
+						{{ info.location }}
 					</div>
 				</div>
 
 				<div class="normal-field">
 					<div class="field-caption">
-						Advocating
+						Category
+					</div>
+					<div id="project-location">
+						{{ info.category }}
+					</div>
+				</div>
+
+				<div class="normal-field">
+					<div class="field-caption">
+						Date created
 					</div>
 					<div id="project-category">
-						#Africa
+						{{ info.date_created }}
 					</div>
 				</div>
 
@@ -56,7 +65,7 @@
 						Managed by
 					</div>
 					<div id="project-owner">
-						Prajogo Tio
+						<a href='/user/{{ info.owner_id }}'>{{ info.owner_username }}</a>
 					</div>
 				</div>
 
@@ -65,7 +74,7 @@
 						Organisation
 					</div>
 					<div id="project-charity-org">
-						Reddish Cross
+						{{ info.charity_org }}
 					</div>
 				</div>
 
@@ -75,15 +84,15 @@
 						<div id="money-gauge"></div>
 					</div>
 					<div class="stat-field float-left">
-						<div id="donation-goal">$152,233</div>
+						<div id="donation-goal">${{ info.donation_goal }}</div>
 						<div class="stat-caption">Donation Goal</div>
 					</div>
 					<div class="stat-field float-left">
-						<div id="donation-collected">140,000</div>
+						<div id="donation-collected">${{ info.donation_total }}</div>
 						<div class="stat-caption">Collected</div>
 					</div>
 					<div class="stat-field float-left">
-						<div id="number-of-donor">215</div>
+						<div id="number-of-donor">{{ info.num_of_backers if info.num_of_backers != None else 0 }}</div>
 						<div class="stat-caption">Donors</div>
 					</div>
 					<div class="clear-fix"></div>
@@ -92,7 +101,10 @@
 			<div class="clear-fix"></div>
 		</div>
 		<div class="project-information">
-            
+            <div class="project_updates_title">Campaign</div>
+            <div class="campaign">
+            		{{ info.other_info }}
+            </div>
             <div class="project_updates_title">Project Updates </div>
             <!-- Updates --> 
             

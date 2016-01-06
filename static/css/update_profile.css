@@ -1,0 +1,65 @@
+.main-frame {
+	width:64%;
+	margin:0 18% 50px 18%;
+	position:relative;
+}
+
+.title-caption {
+	position:relative;
+	font-size:25px;
+	border:1px solid rgba(0,0,0,0.3);
+	padding:8px;
+	margin-top:88px;
+	border-radius:10px 10px 0 0;
+	background-color:rgba(255,73,72,0.9);
+	color:white;
+}
+
+.field-subcaption {
+	font-size:14px;
+	font-style:italic;
+}
+
+.field {
+	width:100%;
+	font-size:21px;
+	padding-left:14px;
+	padding-right:14px;
+	margin-top:21px;
+}
+
+.field input[type="text"] {
+	width:100%;
+	padding:none;
+	margin:none;
+	border:none;
+	border:1px solid rgba(0,0,0,0.5);
+	font-size:18px;
+}
+
+.field textarea {
+	width:100%;
+	height:200px;
+	font-size:16px;
+	padding:6px;
+}
+
+.field input[type="submit"] {
+	width:100%;
+	font-size:22px;
+	text-align:center;
+	color:white;
+	background-color:green;
+	border-radius:10px;
+	border:none;
+	cursor:pointer;
+}
+
+.field input[type="date"] {
+	font-size:18px;
+}
+
+#prof_pic_info {
+	color:green;
+	font-size:12px;
+}

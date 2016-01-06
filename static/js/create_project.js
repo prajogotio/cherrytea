@@ -18,7 +18,7 @@
 				}).done(function(msg){
 					console.log('success', msg);
 					values.proj_pic = msg.pic_id;
-					$('#proj-pic-file-info').html("Project picture uploaded!")
+					$('#proj-pic-file-info').html("Project picture is uploaded!")
 				}).fail(function(msg){
 					console.log('fail', msg);
 				})
@@ -29,20 +29,28 @@
 			values.proj_desc = $('#proj-desc-input').val();
 			values.category = $('#category-input').val();
 			values.location = $('#location-input').val();
-			values.other_info = $('#other-info-input').html();
+			values.other_info = $('#other-info-input').val();
 			values.donation_goal = $('#donation-goal-input').val();
 			values.charity_org = $('#charity-org-input').val();
 
 			this.value = "Creating..."
 
 			$.ajax({
-				url:'http://'+location.host+'/create_project_submission',
+				url:'http://'+location.host+'/create/project/submit',
 				data:values,
 				method:'POST'
 			}).done(function(msg){
 				console.log('success', msg);
+				if (msg.success) {
+					displayNotification("Project has been successfully created! Redirecting to the project profile...");
+					setTimeout(function(){
+						window.location.href = "/project/" + msg.proj_id;
+					}, 1500);
+				}
 			}).fail(function(msg){
 				console.log('fail', msg);
+				// show failure
+				displayNotification("Failed to create the project. Please try again later.");
 			});
 		});
 	});

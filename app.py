@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, request, jsonify, make_response
 from flask.ext.sqlalchemy import SQLAlchemy
 from gevent.wsgi import WSGIServer
-import os, random
+import os, random, datetime
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -9,6 +9,7 @@ app.secret_key = 'SECRET KEY FOR CHERRYTEA SESSION'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cherryteadb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['UPLOAD_FOLDER'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static/prof_pic'))
+app.config['PROF_PIC_STORAGE'] = '/static/prof_pic'
 
 db = SQLAlchemy(app)
 db.session.autoflush = False
@@ -29,14 +30,14 @@ def register():
 def login():
 	return render_template('login.html')
 
-@app.route('/create_user', methods=['POST'])
+@app.route('/create/user', methods=['POST'])
 def app_create_user():
 	success = create_user(request.form['username'], request.form['password'],
 			    request.form['user_type'], email=request.form['email'],
 			    charity_number=request.form['charity_number']);
 	return jsonify(success=success)
 
-@app.route('/user_login', methods=['POST'])
+@app.route('/user/login', methods=['POST'])
 def app_user_login():
 	res = get_user_id(request.form['username'], request.form['password'])
 	if res['success']:
@@ -51,15 +52,15 @@ def app_upload():
 	if f and is_allowed_file(f.filename):
 		filename = session['username'] + '_' + str(random.randint(1,1000000)) + secure_filename(f.filename)
 		f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		ret = record_prof_pic(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		ret = record_prof_pic(os.path.join(app.config['PROF_PIC_STORAGE'], filename))
 		return jsonify(ret)
 	return jsonify(success=False)
 
-@app.route('/create_project')
+@app.route('/create/project')
 def app_create_project():
 	return render_template('create_project.html')
 
-@app.route('/create_project_submission', methods=['POST'])
+@app.route('/create/project/submit', methods=['POST'])
 def app_create_project_submission():
 	ret = create_project(session['user_id'], 
 				   request.form.get('proj_name'), 
@@ -68,12 +69,14 @@ def app_create_project_submission():
 				   request.form.get('category'), 
 				   request.form.get('donation_goal'), 
 				   request.form.get('charity_org'), 
+				   request.form.get('other_info'),
 				   request.form.get('proj_pic'))
 	return jsonify(ret)
 
 @app.route('/project/<int:proj_id>')
 def app_view_project(proj_id):
-	return render_template('project_profile.html', proj_id=proj_id)
+	info = get_project_profile(proj_id)
+	return render_template('project_profile.html', info=info)
 
 @app.route('/project/<int:proj_id>/payment')
 def app_view_project_payment(proj_id):
@@ -81,7 +84,8 @@ def app_view_project_payment(proj_id):
 
 @app.route('/user/<int:user_id>')
 def app_view_user(user_id):
-	return render_template('user_profile.html', user_id=user_id)
+	info = get_profile_info(session, user_id)
+	return render_template('user_profile.html', info=info)
 
 @app.route('/user_charity/<int:user_charity_id>')
 def app_view_user_charity(user_charity_id):
@@ -91,6 +95,34 @@ def app_view_user_charity(user_charity_id):
 def app_view_search_results():
 	return render_template('search_results.html')
 
+@app.route('/update/user_profile')
+def app_update_profile():
+	info = get_profile_info(session, session['user_id'])
+	return render_template('update_profile.html', info=info)
+
+@app.route('/update/user_profile/submit', methods=['POST'])
+def app_update_profile_submission():
+	# create profile
+	params = {'first_name':request.form.get('first_name'),
+			  'last_name':request.form.get('last_name'),
+			  'bio':request.form.get('bio'),
+			  'address':request.form.get('address'),
+			  'advocate':request.form.get('advocate'),
+			  'profile_pic_id':request.form.get('profile_pic_id')}
+	
+	if request.form.get('date_of_birth'):
+		params['date_of_birth']=datetime.datetime.strptime(request.form.get('date_of_birth'), "%Y-%m-%d"),
+
+	ret = update_user_profile(session['user_id'], params)
+	return jsonify(ret)
+
+# error handler
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('not_found.html')
+
+
+# debugging routes
 @app.route('/test_upload')
 def test_upload():
 	return render_template('test_upload.html')
@@ -99,6 +131,7 @@ def test_upload():
 def clear_session():
 	session.clear();
 	return make_response("Session cleared.")
+
 
 if __name__ == '__main__':
 	server = WSGIServer(('',5000),app)

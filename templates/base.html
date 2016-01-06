@@ -2,6 +2,7 @@
 <head>
 	<script src="{{ url_for('static', filename='js/jquery-1.11.3.js') }}"></script>
 	<link href="{{ url_for('static', filename='css/base.css') }}" rel='stylesheet' type='text/css'>
+	<script src="{{ url_for('static', filename='js/base.js') }}"></script>
 	{% block statics %}{% endblock %}
 
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
@@ -29,7 +30,7 @@
 		{% else %}
 		<!-- case 2: logged in -->
 		<div id="head-user-profile-link" class="float-right head-menu-href">
-			<a href="#">{{ session.username }}</a>
+			<a href="/user/{{ session.user_id }}">{{ session.username }}</a>
 		</div>
 		<div class="float-right head-menu-href">
 			<a href="#">Notification</a>
@@ -38,10 +39,13 @@
 			<a href="#">Projects</a>
 		</div>
 		<div class="float-right head-menu-href">
-			<a href="#">Home</a>
+			<a href="/">Home</a>
 		</div>
 		{% endif %}
 		<div class="clear-fix"></div>
+	</div>
+	
+	<div id="notif-list" class="notif-list">
 	</div>
 </body>
 </html>

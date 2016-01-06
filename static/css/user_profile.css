@@ -128,3 +128,17 @@ body {
     width: 32.5%;
     border: 0px solid black;
 }
+
+.user-notice {
+	padding:20px;
+	width:100%;
+	text-align:center;
+	background-color:grey;
+	color:white;
+}
+
+.user-notice a {
+	text-decoration:underline;
+	cursor:pointer;
+	color:white;
+}

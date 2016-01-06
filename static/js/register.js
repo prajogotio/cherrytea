@@ -85,7 +85,7 @@ $(document).ready(function() {
 
 function createUserAccount(values) {
 	$.ajax({
-		url: 'http://'+location.host+'/create_user',
+		url: 'http://'+location.host+'/create/user',
 		data: values,
 		method: 'POST'
 	}).done(function(msg) {
