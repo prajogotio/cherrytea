@@ -11,7 +11,7 @@
 	{% block main_body %}{% endblock %}
 
 	<!-- This is the header-menu part of the landing page -->
-	<div id="head-wrapper">
+	<div id="head-wrapper" class="no-select">
 		<div id="head-logo" class="float-left">
 			<img src="{{ url_for('static', filename='img/logo-white.png') }}" onclick="window.location.href='/'">
 		</div>
@@ -42,10 +42,10 @@
 		<div class="clear-fix"></div>
 	</div>
 	
-	<div id="notif-list" class="notif-list">
+	<div id="notif-list" class="notif-list no-select">
 	</div>
 
-	<div id="waiting-box" class="waiting-box">
+	<div id="waiting-box" class="waiting-box no-select">
 		<div class="waiting-box-container">
 			<div id="waiting-box-content">
 				Waiting...

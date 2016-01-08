@@ -460,7 +460,7 @@ def get_num_of_project_backers(proj_id):
 
 def get_recently_backed_projects(user_id):
 	#try:
-		x = db.engine.execute('SELECT d.proj_id, d.date_donated, amount, pp.pic_url, p.proj_name FROM donation d JOIN proj p ON d.proj_id = p.proj_id LEFT JOIN profile_pic pp ON pp.pic_id = p.proj_pic_id WHERE donator_id=%d ORDER BY date_donated desc LIMIT 3' % user_id)
+		x = db.engine.execute('SELECT d.proj_id, d.date_donated, amount, pp.pic_url, p.proj_name FROM donation d JOIN proj p ON d.proj_id = p.proj_id LEFT JOIN profile_pic pp ON pp.pic_id = p.proj_pic_id WHERE donator_id=%d ORDER BY date_donated DESC LIMIT 3' % user_id)
 		res = [{'proj_id':row[0], 
 				'date_donated':time.strftime('%d %b %Y', row[1].timetuple()), 
 				'amount':row[2],
@@ -533,7 +533,7 @@ def get_recent_projects(size=3, offset=None):
 	return ret
 
 def get_popular_projects(size=3, offset=None):
-	q = 'SELECT proj_id, category, proj_name, num_of_donations, pic_url FROM proj p LEFT JOIN profile_pic pp ON p.proj_pic_id = pp.pic_id ORDER BY num_of_donations desc, date_created desc LIMIT %d' % size
+	q = 'SELECT proj_id, category, proj_name, num_of_donations, pic_url FROM proj p LEFT JOIN profile_pic pp ON p.proj_pic_id = pp.pic_id ORDER BY num_of_donations DESC, date_created DESC LIMIT %d' % size
 	if offset:
 		q += ' OFFSET %d' % offset
 	res = db.engine.execute(q);
@@ -545,3 +545,44 @@ def get_popular_projects(size=3, offset=None):
 			'proj_pic_url':r[4]}
 			for r in res]
 	return ret
+
+
+def search_project(search_term, options={}):
+	q = 'SELECT p.proj_id, p.proj_name, p.proj_desc, p.date_created, p.num_of_donations, p.category, \
+				u.username, u.user_id,\
+				pp.pic_url\
+		FROM proj p\
+		JOIN users u\
+		ON u.user_id = p.owner_id\
+		LEFT JOIN profile_pic pp\
+		ON pp.pic_id = p.proj_pic_id\
+		WHERE LOWER(p.proj_name) like \'%%{0}%%\'\
+		OR LOWER(p.proj_desc) like \'%%{0}%%\'\
+		OR LOWER(u.username) like \'%%{0}%%\'\
+		OR LOWER(p.category) like \'%%{0}%%\'\
+		ORDER BY p.num_of_donations DESC, p.date_created DESC\
+		LIMIT {1} OFFSET {2}\
+		'.format(search_term.lower(), options.get('size', 10), options.get('offset', 0))
+	res = db.engine.execute(q).fetchall()
+	
+	ret = {'result':[dict(row) for row in res]}
+
+	for r in ret['result']:
+		r['date_created'] = time.strftime('%d %b %Y', r['date_created'].timetuple())
+
+	q = 'SELECT COUNT(*) as num_of_matches\
+		FROM proj p\
+		JOIN users u\
+		ON u.user_id = p.owner_id\
+		WHERE LOWER(p.proj_name) like \'%%{0}%%\'\
+		OR LOWER(p.proj_desc) like \'%%{0}%%\'\
+		OR LOWER(u.username) like \'%%{0}%%\'\
+		OR LOWER(p.category) like \'%%{0}%%\'\
+		'.format(search_term.lower())
+	res = db.engine.execute(q).fetchone()
+	ret['num_of_matches'] = res[0]
+	ret['size'] = options.get('size', 10)
+	ret['offset'] = options.get('offset', 0)
+	ret['search_term'] = search_term
+	return ret
+	

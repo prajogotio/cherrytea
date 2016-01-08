@@ -34,6 +34,14 @@ body {
     text-align: center;
 }
 
+.search-options {
+	margin-top:8px;
+	position:relative;
+	width: 70%;
+	left: 15%;
+	font-size:16px;
+}
+
 
 #search_bar{
     position:relative;
@@ -46,10 +54,11 @@ body {
 	color:rgb(80,80,80);
     border: 2px solid darkgrey;
 	font-weight:lighter;
-
+	display:block;
 }
+
 #search_button{
- 
+	display:block;
     position:relative;
     margin:0;
     padding:2px;
@@ -59,8 +68,8 @@ body {
 	font-weight:lighter;
 	background-color:#FF4948;
 	color:white;
-	
 	cursor:pointer;
+	width:9%;
 }
 
 
@@ -70,37 +79,99 @@ body {
 
 .search_results{
     
-    margin-top: 40px;
+    margin-top: 20px;
     width:70%;
 	position:relative;
 	left:15%;
-    text-align: center;
 }
 
 #search_results_title{
-
-    background-color: darkolivegreen;
+    background-color: #1a1;
     color: white;
-    padding: 20px;
+    padding: 8px 20px 8px 20px;
     text-align: left;
+    border-radius:10px 10px 0 0;
 }
 
 #num_of_results{
-    
     margin-top: 5px;
     margin-bottom: 10px;
     text-align: left;
-    
+    padding:8px 20px 8px 20px;
+    font-weight:lighter;
 }
 
-.search_results > img {
-    
-    width: 32%;
-    padding: 5px;
-    margin: 2px;
-    
-    
+#num_of_results span {
+	font-weight:normal;
 }
 
 
+.result-item {
+	border:1px solid rgba(0,0,0,0.2);
+	padding:16px 20px 16px 20px;
+}
+
+.result-thumbnail {
+	width:26%;
+	overflow:hidden;
+	border:3px solid rgba(0,0,0,0.3);
+	max-height:200px;
+}
+
+.result-thumbnail img {
+	width:100%;
+}
+
+.result-info {
+	margin-left:3%;
+	font-size:17px;
+	width:70%;
+}
+
+
+.result-name {
+	font-size:23px;
+}
+
+.result-owner {
+	margin-top:8px;
+}
+
+
+.result-name a, .result-owner a{
+	text-decoration: none;
+	color:#19e;
+}
+
+.result-desc {
+	margin-top:20px;
+}
+
+.result-metadata {
+	margin-top:20px;
+	font-weight: lighter;
+}
+
+.result-category {
+	margin-top:20px;
+	color:green;
+}
+
+.search-pager {
+	text-align:center;
+	width:70%;
+	left:15%;
+	position:relative;
+	margin-top:20px;
+	margin-bottom:50px;
+}
+
+.search-pager a {
+	border:1px solid rgba(0,0,0,0.4);
+	padding:4px;
+	margin:0 2px 0 2px;
+	cursor:pointer;
+	background-color:#f54;
+	color:white;
+}
 

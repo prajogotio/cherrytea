@@ -146,6 +146,13 @@ def app_get_popular_projects():
 	offset = request.args.get('offset', None)
 	return get_json_response(get_popular_projects(size, offset))
 
+@app.route('/ajax/search', methods=['GET'])
+def app_search():
+	search_term = request.args.get('search_term')
+	size = int(request.args.get('size', 10))
+	offset = int(request.args.get('offset', 0))
+	return get_json_response(search_project(search_term, {'size':size, 'offset':offset}))
+	
 
 # error handler
 @app.errorhandler(404)

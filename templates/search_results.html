@@ -7,22 +7,45 @@
 	<div id="main-wrapper">
         
         <div class="search">
-            <input id="search_bar" placeholder="Not what you're looking for? Search again!" >
-            <button id="search_button" type="submit" onclick="search_clicked()">Search</button>
+            <input id="search_bar" placeholder="Not what you're looking for? Search again!" class="float-left" >
+            <button id="search_button" type="submit" class="float-left">Search</button>
+            <div class="clear-fix"></div>
+        </div>
+        <div class="search-options">
+            <div class="search-options-title">
+                advanced search
+            </div>
         </div>
         
         <div class="search_results">
             <div id="search_results_title"> Search Results</div>
-            <div id="num_of_results">Displaying 1 to 23 of 2000 results.</div>
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
-            <img src="{{ url_for('static', filename='img/reindeer_print.jpg') }} ">
+            <div id="num_of_results">
+                Displaying <span id="result-range">0</span> of <span id="result-total">0</span> results.
+            </div>
+            <div id="search-results">
+            <!--
+                <div class="result-item">
+                    <div class="result-thumbnail float-left">
+                        <img src="/static/img/no_poster.jpg" onclick='window.location.href="/"'>
+                    </div>
+                    <div class="result-info float-left">
+                        <div class="result-name"><a href='/'>YMCA Singapore is trying so hard</a></div>
+                        <div class="result-owner"><a href='/'>prajogotio</a></div>
+                        <div class="result-desc">We are trying hard to make all people love us!</div>
+                        <div class="result-metadata">
+                            <div class="result-donation float-left">311 donations</div>
+                            <div class="result-date float-right">Created on 12 Jan 2013</div>
+                            <div class="clear-fix"></div>
+                        </div>
+                    </div>
+                    <div class="clear-fix"></div>
+                </div>
+            -->
+            </div>
             
-        </div>     
+        </div> 
+        <div id="search-pager" class="search-pager">
+            <a>prev</a><a>next</a>
+        </div>    
 	</div>
 {% endblock %}
