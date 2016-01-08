@@ -16,7 +16,7 @@ function requestSearch(search_term, offset, size) {
 			appendSearchResult(msg.result[i]);
 		}
 		$('#result-total').html(msg.num_of_matches);
-		$('#result-range').html((msg.offset+1) + ' to ' + (msg.offset+msg.result.length));
+		$('#result-range').html((Math.min(msg.offset+1, msg.num_of_matches)) + ' to ' + (msg.offset+msg.result.length));
 		renderPager(msg.offset, msg.size, msg.num_of_matches, msg.search_term);
 	}).always(function(msg) {
 		closeWaitingBox();
@@ -85,7 +85,15 @@ function appendSearchResult(data) {
 $(document).ready(function() {
 		
 	$('#search_button').click(function() {
-		requestSearch($('#search_bar').val(), 0, 5)
+		requestSearch($('#search_bar').val(), 0, 5);
+	});
+
+	$('#search_bar').keydown(function(e) {
+		if (e.which == 13) {
+			requestSearch($('#search_bar').val(), 0, 5);
+			e.preventDefault();
+			return false;
+		}
 	});
 });
 

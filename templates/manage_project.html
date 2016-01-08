@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block statics %}
+	<script src="{{ url_for('static', filename='js/manage_project.js')}}"></script>
+	<link href="{{ url_for('static', filename='css/manage_project.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block main_body %}
+	<input type="hidden" name="proj_id" value="{{ info.proj_id }}">
+	<input type="hidden" name="goal" value="{{ info.donation_goal }}">
+	<input type="hidden" name="donated" value="{{ info.donation_total }}">
+
+
+	<div class="main-frame">
+		<div class="caption-title">
+			Project Dashboard
+		</div>
+		<div class="caption-project-name">
+			<a href="/project/{{ info.proj_id }}">{{ info.proj_name }}</a>
+		</div>
+
+		<div class="caption-subtitle">
+			Management
+		</div>
+		<div class="management-options">
+			<div class="option-item float-left">
+				Broadcast new post
+			</div>
+			<div class="option-item float-left">
+				Revise goal
+			</div>
+			<div class="option-item float-left">
+				Update project profile
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
+		<div class="caption-subtitle">
+			Donation Graph
+		</div>
+		<div class="donation-graph">
+			<!-- donation for 7 days -->
+		</div>
+
+		<div class="caption-subtitle">
+			Project Statistics
+		</div>
+		<div class="project-statistics">
+			<div class="stat-title">
+				Donation vs. Goal
+			</div>
+			<div id="money-bar">
+				<div id="money-goal"></div>
+				<div id="money-gauge"></div>
+				<div id="money-goal-overlay"></div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="donation-goal">${{ info.donation_goal }}</div>
+				<div class="stat-caption">Donation Goal</div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="donation-collected">${{ info.donation_total }}</div>
+				<div class="stat-caption">Collected</div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="number-of-donor">{{ info.num_of_backers }}</div>
+				<div class="stat-caption">Donors</div>
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
+
+		<div class="caption-subtitle">
+			Recent donations
+		</div>
+		<div class="recent-donation-list">
+			{% if info.num_of_backers == 0 %}
+			<div class="no-result"> There is no donation yet.</div>
+			{% else %}
+				{% for d in info.recent_donation %}
+				<div><a href='/user/{{ d.donator_id }}'>{{ d.username }}</a> donated <span>${{ d.amount }}</span> on {{ d.date_donated }}</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+
+		<div class="caption-subtitle">
+			Followers
+		</div>
+		<div class="follower-list">
+			{% if info.recent_follower.num_followers == 0 %}
+			<div class="no-result">The project has no followers yet.</div>
+			{% else %}
+				<div class="follower-subcaption">
+					Total number of followers: <span>{{ info.recent_follower.num_followers }}</span>
+				</div>
+				{% for f in info.recent_follower.followers %}
+				<div class="profile-thumbnail float-left">
+					<div class="profile-img" onclick="window.location.href='/user/{{ f.follower_id }}'">
+						<img src="{{ f.pic_url }}">
+					</div>
+					<div class="profile-link"><a href="/user/{{ f.follower_id }}">{{ f.username }}</a></div>
+				</div>
+				{% endfor %}
+				<div class="clear-fix"></div>
+			{% endif %}
+		</div>
+		<div class="main-frame-end"></div>
+	</div>
+	
+	{{ super() }}
+{% endblock %}

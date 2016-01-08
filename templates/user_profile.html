@@ -119,4 +119,5 @@
 	<input type="hidden" name="recent_backed_list" value="{{ info.recently_backed_projects }}">
 	<input type="hidden" name="full_name" value="{{ info.profile.full_name }}">
 	<input type="hidden" name="username" value="{{ info.username }}">
+	{{ super() }}
 {% endblock %}

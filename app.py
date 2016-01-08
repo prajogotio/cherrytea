@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, request, jsonify, make_response
+from flask import Flask, render_template, request, session, request, jsonify, make_response, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from gevent.wsgi import WSGIServer
 import os, random, datetime
@@ -76,6 +76,7 @@ def app_create_project_submission():
 @app.route('/project/<int:proj_id>')
 def app_view_project(proj_id):
 	info = get_project_profile(proj_id)
+	info['followed'] = is_project_follower(proj_id, session['user_id'])
 	return render_template('project_profile.html', info=info)
 
 @app.route('/project/<int:proj_id>/payment')
@@ -96,7 +97,12 @@ def app_view_user_charity(user_charity_id):
 
 @app.route('/search_results')
 def app_view_search_results():
-	return render_template('search_results.html')
+	return render_template('search_results.html', info={})
+
+@app.route('/search_results/<search_term>')
+def app_view_search_results_specified(search_term):
+	info = {'search_term':search_term}
+	return render_template('search_results.html', info=info)
 
 @app.route('/update/user_profile')
 def app_update_profile():
@@ -134,6 +140,13 @@ def app_record_donation():
 	ret = record_donation(session['user_id'], proj_id, donation_amount, paypal_id)
 	return jsonify(success=ret)
 
+@app.route('/manage/project/<int:proj_id>')
+def app_manage_project_by_id(proj_id):
+	info = get_project_profile(proj_id)
+	info['recent_donation'] = get_recent_donations(proj_id)
+	info['recent_follower'] = get_recent_follower_info(proj_id)
+	return render_template("manage_project.html", info=info)
+
 @app.route('/ajax/recent_project', methods=['GET'])
 def app_get_recent_projects():
 	size = int(request.args.get('size', 3))
@@ -147,12 +160,27 @@ def app_get_popular_projects():
 	return get_json_response(get_popular_projects(size, offset))
 
 @app.route('/ajax/search', methods=['GET'])
-def app_search():
+def app_search_project():
 	search_term = request.args.get('search_term')
 	size = int(request.args.get('size', 10))
 	offset = int(request.args.get('offset', 0))
 	return get_json_response(search_project(search_term, {'size':size, 'offset':offset}))
 	
+@app.route('/ajax/follow', methods=['POST'])
+def app_follow_project():
+	proj_id = request.form.get('proj_id')
+	return jsonify(success=follow_project(session['user_id'], proj_id))
+
+@app.route('/ajax/unfollow', methods=['POST'])
+def app_unfollow_project():
+	proj_id = request.form.get('proj_id')
+	return jsonify(success=unfollow_project(session['user_id'], proj_id))
+
+
+@app.route('/logout')
+def app_logout():
+	session.clear()
+	return redirect('/')
 
 # error handler
 @app.errorhandler(404)

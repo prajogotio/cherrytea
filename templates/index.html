@@ -33,10 +33,10 @@
 	{% else %}
 	<!-- case 2: logged in, show home page -->
 
-	<div id="home-page" class="main-frame">
+	<div id="home-page" class="home-frame">
 		<div class="header-section">
 			<div class="search-bar">
-				<input class="search-bar-text float-left" type="text"><input class="search-bar-submit float-left" value="search" type="submit">
+				<input id="search-bar-text" class="search-bar-text float-left" placeholder="search projects" type="text"><input id="search-bar-submit" class="search-bar-submit float-left" value="search" type="submit">
 				<div class="clear-fix"></div>
 				<div class="advanced-search-option">
 					<a>advanced search</a>
@@ -87,6 +87,7 @@
 			</div>
 		</div>
 	</div>
-	{% endif %}
+	{{ super() }}
 
+	{% endif %}
 {% endblock %}

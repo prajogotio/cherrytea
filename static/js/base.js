@@ -18,3 +18,14 @@ function displayWaitingBox(txt) {
 function closeWaitingBox() {
 	$('#waiting-box').hide();
 }
+
+
+$(document).ready(function() {
+	$('#head-menu-icon').click(function() {
+		$('#menu-options-layer').show();
+	});
+
+	$('#menu-options-layer').click(function() {
+		$(this).hide();
+	});
+})

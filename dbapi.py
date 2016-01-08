@@ -308,6 +308,16 @@ def follow_project(user_id, proj_id):
 	except:
 		return False
 
+def unfollow_project(user_id, proj_id):
+	try:
+		u = User.query.filter(User.user_id==user_id).first()
+		p = Project.query.filter(Project.proj_id==proj_id).first()
+		p.followers.remove(u)
+		db.session.commit()
+		return True
+	except:
+		return False
+
 def post_broadcast(proj_id, content):
 	try:
 		params = {'date_broadcasted':datetime.datetime.utcnow(),
@@ -348,12 +358,14 @@ def reply_broadcast(broadcast_id, user_id, content):
 	except:
 		return False
 
-def record_donation(user_id, proj_id, amount, paypal_id=None):
+def record_donation(user_id, proj_id, amount, paypal_id=None, date_donated=None):
 	#try:
+		if not date_donated:
+			date_donated = datetime.datetime.utcnow()
 		params = {'amount':amount,
 				  'proj_id':proj_id,
 				  'paypal_id':paypal_id,
-				  'date_donated':datetime.datetime.utcnow()}
+				  'date_donated':date_donated}
 		d = Donation(**params)
 		u = User.query.filter(User.user_id==user_id).first()
 		p = Project.query.filter(Project.proj_id==proj_id).first()
@@ -560,6 +572,7 @@ def search_project(search_term, options={}):
 		OR LOWER(p.proj_desc) like \'%%{0}%%\'\
 		OR LOWER(u.username) like \'%%{0}%%\'\
 		OR LOWER(p.category) like \'%%{0}%%\'\
+		OR LOWER(p.location) like \'%%{0}%%\'\
 		ORDER BY p.num_of_donations DESC, p.date_created DESC\
 		LIMIT {1} OFFSET {2}\
 		'.format(search_term.lower(), options.get('size', 10), options.get('offset', 0))
@@ -578,6 +591,7 @@ def search_project(search_term, options={}):
 		OR LOWER(p.proj_desc) like \'%%{0}%%\'\
 		OR LOWER(u.username) like \'%%{0}%%\'\
 		OR LOWER(p.category) like \'%%{0}%%\'\
+		OR LOWER(p.location) like \'%%{0}%%\'\
 		'.format(search_term.lower())
 	res = db.engine.execute(q).fetchone()
 	ret['num_of_matches'] = res[0]
@@ -586,3 +600,45 @@ def search_project(search_term, options={}):
 	ret['search_term'] = search_term
 	return ret
 	
+def is_project_follower(proj_id, user_id):
+	res = db.engine.execute('SELECT true FROM proj_follower WHERE proj_id={0} AND follower_id={1}'.format(proj_id, user_id))
+	x = res.fetchall()
+	return True if x else False
+
+def get_recent_donations(proj_id):
+	q = 'SELECT donator_id, amount, date_donated, username\
+	     FROM donation d\
+	     JOIN users u\
+	     ON u.user_id = d.donator_id\
+	     WHERE d.proj_id = {0}\
+	     ORDER BY date_donated DESC\
+	     LIMIT 7'.format(proj_id)
+	res = db.engine.execute(q)
+
+	ret = [dict(r) for r in res]
+	for r in ret:
+		r['date_donated'] = time.strftime('%d %b %Y', r['date_donated'].timetuple())
+	return ret
+
+def get_recent_follower_info(proj_id):
+	q = 'SELECT follower_id, username, \
+		 		COALESCE(pic_url, \'/static/img/no_prof_pic.jpg\') as pic_url\
+		 FROM proj_follower pf\
+		 JOIN users u\
+		 ON u.user_id = pf.follower_id\
+		 LEFT JOIN profile p\
+		 ON p.user_id = u.user_id\
+		 LEFT JOIN profile_pic pp\
+		 ON p.profile_pic_id = pp.pic_id\
+		 WHERE pf.proj_id = {0}\
+		 LIMIT 7'.format(proj_id)
+	res = db.engine.execute(q)
+	ret = {'followers':[dict(r) for r in res]}
+
+	q = 'SELECT COUNT(follower_id) FROM proj_follower WHERE proj_id={0}'.format(proj_id)
+	res = db.engine.execute(q)
+	row = res.fetchone()
+	ret['num_followers'] = row[0]
+	return ret
+
+

@@ -8,15 +8,18 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,100' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	{% block main_body %}{% endblock %}
+	{% block main_body %}
+
+	<div class="footer">
+		<div>Cherrytea, 2016. Imperial College London</div>
+		<div><span>Prajogo Tio</span><span> . </span><span>Nigel Kong</span><span> . </span><span>Chen Chin Jieh</span><span> . </span><span>Sumer Sinha</span></div>
+	</div>
+	{% endblock %}
 
 	<!-- This is the header-menu part of the landing page -->
 	<div id="head-wrapper" class="no-select">
 		<div id="head-logo" class="float-left">
 			<img src="{{ url_for('static', filename='img/logo-white.png') }}" onclick="window.location.href='/'">
-		</div>
-		<div id="head-menu-icon" class="float-right head-menu-href">
-			<a href="#">Menu</a>
 		</div>
 
 		{% if not session.logged_in %}
@@ -29,6 +32,10 @@
 		</div>
 		{% else %}
 		<!-- case 2: logged in -->
+		<div id="head-menu-icon" class="float-right head-menu-href">
+			<a href="#">Menu</a>
+		</div>
+
 		<div id="head-user-profile-link" class="float-right head-menu-href">
 			<a href="/user/{{ session.user_id }}">{{ session.username }}</a>
 		</div>
@@ -52,6 +59,15 @@
 			</div>
 		</div>
 	</div>
+	<div id="menu-options-layer">
+		<div id="menu-options">
+			<div class="menu-item"><a href="/create/project">Create Project</a></div>
+			<div class="menu-item"><a href="/manage/project">Manage Projects</a></div>
+			<div class="menu-item"><a href="/user/{{ session.user_id }}">Profile</a></div>
+			<div class="menu-item"><a href="/logout">Log out</a></div>
+		</div>
+	</div>
 
+	
 </body>
 </html>

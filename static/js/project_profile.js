@@ -92,6 +92,7 @@ function postComment(){
 
 $(document).ready(function() {
     // set donation/goal bar
+    var proj_id = parseInt($('input[name="proj_id"]').first().val());
     var goal = parseFloat($('input[name="goal"]').first().val());
     var donated = parseFloat($('input[name="donated"]').first().val());
     var goalCovered = donated/goal*70;
@@ -99,5 +100,39 @@ $(document).ready(function() {
     if (goalCovered > 70) {
         $('#money-gauge').css('background-color', '#fb1')
     }
+
+    var followed = $('input[name="followed"]').first().val() == 'true';
+    if (followed) {
+        $('#follow-button').hide();
+        $('#unfollow-button').show();
+    }
+
+    $('#follow-button').click(function() {
+        $.ajax({
+            url:'http://'+location.host+'/ajax/follow',
+            method:'POST',
+            data:{'proj_id':proj_id}
+        }).done(function(msg){
+            if (msg.success) {
+                displayNotification("Project has been successfully followed!")
+                $('#follow-button').hide();
+                $('#unfollow-button').show();
+            }
+        })
+    });
+
+    $('#unfollow-button').click(function() {
+        $.ajax({
+            url:'http://'+location.host+'/ajax/unfollow',
+            method:'POST',
+            data:{'proj_id':proj_id}
+        }).done(function(msg){
+            if (msg.success) {
+                displayNotification("Project has been unfollowed.")
+                $('#follow-button').show();
+                $('#unfollow-button').hide();
+            }
+        })
+    });
 });
 

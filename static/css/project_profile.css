@@ -13,9 +13,7 @@ body {
 
 #main-wrapper {
 	width:100%;
-	height:100%;
-	position:absolute;
-	left:0;
+	position:relative;
 	top:0;
 	min-width:800px;
 	min-height:500px;
@@ -321,4 +319,8 @@ body {
 .user-link {
     text-decoration:none;
     color:#17f;
+}
+
+#unfollow-button {
+    display:none;
 }

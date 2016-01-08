@@ -41,4 +41,22 @@ $(document).ready(function() {
 			});
 		})(ajaxUrl[k],allList[k]);
 	}
+
+	// event handler for search bar
+	$('#search-bar-text').keydown(function(e) {
+		if (e.which==13) {
+			searchFor($('#search-bar-text').val());
+			e.preventDefault();
+			return false;
+		}
+	});
+
+	$('#search-bar-submit').click(function(e) {
+		searchFor($('#search-bar-text').val());
+	});
 });
+
+
+function searchFor(search_term){
+	window.location.href = '/search_results/'+search_term;
+}

@@ -4,9 +4,10 @@
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/project_profile.css') }}"> 
 {% endblock %}
 {% block main_body %}
-	
+	<input type="hidden" name="proj_id" value="{{ info.proj_id }}">
 	<input type="hidden" name="goal" value="{{ info.donation_goal }}">
 	<input type="hidden" name="donated" value="{{ info.donation_total }}">
+	<input type="hidden" name="followed" value="{{ 'true' if info.followed else 'false' }}">
 
 
 	<div id="main-wrapper">
@@ -115,8 +116,11 @@
 			<div class="float-right project-button" onclick="window.location.href='/project/{{ info.proj_id }}/payment'">
 				Donate
 			</div>
-			<div class="float-right project-button">
+			<div id="follow-button" class="float-right project-button">
 				Follow
+			</div>
+			<div id="unfollow-button" class="float-right project-button">
+				Unfollow
 			</div>
 			<div class="clear-fix"></div>
 		</div>
@@ -188,6 +192,6 @@
                 </div>
             </div>
 		</div>
-
-
+	</div>
+	{{ super () }}
 {% endblock %}

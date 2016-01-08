@@ -249,6 +249,7 @@ body, #head-wrapper {
 	width:60%;
 	font-size:20px;
 	border:1px solid rgba(0,0,0,0.5);
+	font-weight:lighter;
 }
 
 .search-bar-submit {

@@ -1,0 +1,159 @@
+.main-frame {
+	position:relative;
+	padding-top:50px;
+	width:70%;
+    margin-left:15%;
+    margin-right:15%;
+}
+
+.caption-title {
+	text-align:center;
+	font-size:22px;
+	padding-top:16px;
+	padding-bottom:20px;
+}
+
+.caption-project-name {
+	text-align:center;
+	font-size:30px;
+	padding-bottom:20px;
+}
+
+.caption-project-name a {
+	text-decoration: none;
+	color: #1af;
+}
+
+.caption-subtitle {
+	font-size:22px;
+	background-color:rgba(255,73,72,0.9);
+	color:white;
+	padding:8px 20px 8px 20px;
+	border-radius:10px 10px 0 0;
+	margin-top:20px;
+}
+
+/* project stats */
+
+.project-statistics {
+    padding:10px;
+    border:1px solid rgba(0,0,0,0.2);
+    border-radius:10px;
+}
+
+.stat-title {
+    font-size:18px;
+    font-style:italic;
+}
+
+.stat-field {
+	font-size:18px;
+	margin-right:20px;
+}
+
+.stat-caption {
+	font-weight:lighter;
+}
+
+#money-bar {
+	position:relative;
+	width:100%;
+	height:33px;
+	background-color:rgba(0,0,0,0.3);
+	border:1px solid rgba(0,0,0,0.5);
+    overflow:hidden;
+}
+
+#money-gauge, #money-goal, #money-goal-overlay {
+	position:absolute;
+	left:0;
+	top:0;
+	height:100%;
+}
+
+#money-gauge {
+	width:27%;
+	background-color:#1fa;
+	z-index:2;
+}
+
+#money-goal {
+	border-right:1px solid rgba(0,0,0,0.5);
+    background-color:white;
+	width:70%;
+	z-index:1;
+}
+
+#money-goal-overlay {
+    border-right:1px solid rgba(0,0,0,0.5);
+    width:70%;
+    z-index:3;
+}
+
+.recent-donation-list div {
+	padding:10px;
+	border:1px solid rgba(0,0,0,0.2);
+}
+
+.recent-donation-list span {
+	color: #282;
+}
+.recent-donation-list div a {
+	color: #1af;
+	text-decoration: none;
+}
+
+.profile-thumbnail {
+	margin: 8px;
+}
+
+.profile-img {
+	width:120px;
+	height:120px;
+	overflow:hidden;
+	border-radius:8px;
+	cursor:pointer;
+}
+
+.profile-img img {
+	width:100%;
+}
+
+.profile-link {
+	text-align: center
+}
+.profile-link a{
+	text-decoration: none;
+	color:#1af;
+	cursor:pointer;
+}
+
+.follower-subcaption, .no-result {
+	padding:10px;
+	border:1px solid rgba(0,0,0,0.2);
+}
+
+.follower-subcaption span{
+	color: #1af;
+}
+
+.management-options {
+	border-bottom:1px solid rgba(0,0,0,0.2);
+}
+
+.option-item {
+	padding:8px;
+	border-left:1px solid rgba(0,0,0,0.2);
+	cursor:pointer;
+	color:#19e;
+}
+
+.option-item:hover {
+	background-color:#ffa;
+}
+
+.main-frame-end {
+	position:relative;
+	margin-top:70px;
+	height:1px;
+}

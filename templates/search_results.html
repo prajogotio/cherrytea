@@ -4,10 +4,15 @@
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/search_results.css') }}"> 
 {% endblock %}
 {% block main_body %}
+
 	<div id="main-wrapper">
         
         <div class="search">
-            <input id="search_bar" placeholder="Not what you're looking for? Search again!" class="float-left" >
+            <input id="search_bar" placeholder="Not what you're looking for? Search again!" class="float-left" 
+            {% if info.search_term %} 
+            value="{{ info.search_term }}"
+            {% endif %}
+            >
             <button id="search_button" type="submit" class="float-left">Search</button>
             <div class="clear-fix"></div>
         </div>
@@ -46,6 +51,12 @@
         </div> 
         <div id="search-pager" class="search-pager">
             <a>prev</a><a>next</a>
-        </div>    
+        </div>
 	</div>
+
+    {% if info.search_term %}
+    <script>
+        requestSearch("{{ info.search_term }}", 0, 5); 
+    </script>
+    {% endif %}
 {% endblock %}
