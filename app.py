@@ -77,6 +77,9 @@ def app_create_project_submission():
 def app_view_project(proj_id):
 	info = get_project_profile(proj_id)
 	info['followed'] = is_project_follower(proj_id, session['user_id'])
+	info['broadcasts'] = get_recent_broadcasts(proj_id, 5)
+	for b in info['broadcasts']:
+		b['replies'] = get_broadcast_reply(b['broadcast_id'])
 	return render_template('project_profile.html', info=info)
 
 @app.route('/project/<int:proj_id>/payment')
@@ -85,6 +88,13 @@ def app_view_project_payment(proj_id):
 	session['payment']['proj_id'] = proj_id
 	info = get_project_profile(proj_id)
 	return render_template('payment.html', info=info)
+
+
+@app.route('/user')
+def app_view_current_user():
+	if session.get('user_id'):
+		return redirect('/user/'+str(session['user_id']))
+	return abort(404)
 
 @app.route('/user/<int:user_id>')
 def app_view_user(user_id):
@@ -147,6 +157,11 @@ def app_manage_project_by_id(proj_id):
 	info['recent_follower'] = get_recent_follower_info(proj_id)
 	return render_template("manage_project.html", info=info)
 
+@app.route('/project/<int:proj_id>/post/')
+def app_manage_post(proj_id):
+	info = get_project_profile(proj_id)
+	return render_template('post.html', info=info)
+
 @app.route('/ajax/recent_project', methods=['GET'])
 def app_get_recent_projects():
 	size = int(request.args.get('size', 3))
@@ -176,6 +191,18 @@ def app_unfollow_project():
 	proj_id = request.form.get('proj_id')
 	return jsonify(success=unfollow_project(session['user_id'], proj_id))
 
+@app.route('/ajax/post', methods=['POST'])
+def app_publish_project_post():
+	proj_id = request.form.get('proj_id')
+	title = request.form.get('title')
+	content = request.form.get('entry')
+	return jsonify(success=post_broadcast(proj_id, title, content))
+
+@app.route('/post/reply', methods=['POST'])
+def app_post_reply():
+	content = request.form.get('content')
+	broadcast_id = int(request.form.get('broadcast_id'))
+	return jsonify(success=reply_broadcast(broadcast_id, session['user_id'], content))
 
 @app.route('/logout')
 def app_logout():

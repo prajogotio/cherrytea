@@ -8,6 +8,7 @@
 	<input type="hidden" name="goal" value="{{ info.donation_goal }}">
 	<input type="hidden" name="donated" value="{{ info.donation_total }}">
 	<input type="hidden" name="followed" value="{{ 'true' if info.followed else 'false' }}">
+	<input type="hidden" id="session_user" value="{{ session.username }}">
 
 
 	<div id="main-wrapper">
@@ -128,69 +129,68 @@
 		<div class="project-information">
             <div class="project_updates_title">Campaign</div>
             <div class="campaign">
-            		{{ info.other_info }}
+            {% if info.other_info %}
+            	<div>{{ info.other_info }}</div>
+            {% else %}
+            	<div class="no-result">No campaign yet</div>
+            {% endif %}
             </div>
             <div class="project_updates_title">Project Updates </div>
             <!-- Updates --> 
             
             <div class="project_update">
-                <div class="post">
-                    <div class="post_title">
-                    	Update #3: Bringing Water Containers to America
-                    </div>
-                    <div class="post_post">
-                    	This is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit.
-                    	<br>
-                    	<br>
-                        This is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit.
-                    </div>
-                    <div class="post_date">
-                    	Posted on 2/1/2016.
-                    </div>
-              	</div>
-                
+            	{% if info.broadcasts %}
+            		{% for b in info.broadcasts %}
+		                <div class="post">
+		                    <div class="post_title">
+		                    	{{ b.title }}
+		                    </div>
+		                    <div class="post_post">
+		                    	{{ b.content }}
+		                    </div>
+		                    <div class="post-metadata">
+		                    	<input type="hidden" name="broadcast_id" value="{{ b.broadcast_id }}">
+		                    	<input type="hidden" name="like" value="{{ 'true' if b.like else 'false' }}">
+
+			                    <div class="post_date float-left">
+			                    	Posted on {{ b.date_broadcasted }}
+			                    </div>
+			                    <div class="post_date float-left">
+			                    	<span class="post_likes">{{ b.num_likes }}</span> likes
+			                    </div>
+			                    <div class="post_like post_button float-right">
+			                    	Like
+			                    </div>
+			                    <div class="post_unlike post_button float-right">
+			                    	Unlike
+			                    </div>
+			                    <div class="post_reply post_button float-right">
+			                    	Reply
+			                    </div>
+			                    <div class="clear-fix"></div>
+			                </div>
+			                <div class="replies">
+			                	<input type="hidden" name="reply_size" value="{{b.replies.size}}">
+			                	<input type="hidden" name="reply_offset" value="{{b.replies.offset}}">
+			                	
+			                	{% if b.replies.replies %}
+			                		{% for r in b.replies.replies %}
+			                			<div class="reply-item"><span><a href="/user/{{ r.user_id }}">{{ r.username }}</a><span> {{ r.content }} <br><span class="date-time">replied on {{ r.date_replied }}</span></div>
+			                		{% endfor %}
+			                	{% else %}
+			                	<div class="no-reply">No replies yet</div>
+			                	{% endif %}
+			                </div>
+			                <div class="reply-box">
+			                	<div><textarea placeholder="Write comment here..."></textarea></div>
+			                </div>
+		              	</div>
+		            {% endfor %}
+                {% else %}
+                	<div class="no-result">No broadcasts yet</div>
+                {% endif %}
             </div>       
                 
-        	<!-- Comments --> 
-        	<div class="comment_section">  
-                <div class="comment_section_title">
-                	Comments
-                </div>
-                
-            	<div class="comments"> 
-                	<div class="comment">
-                    	<div class="comment_user">
-                    		Commmmenter123
-                    	</div>
-                    	<div class="comment_text">
-                    		I am commenting on a comment in a comment box. Typing to see how long before I exceed the limit of this nugget.
-                    	</div>
-                    	<div class="comment_date">
-                    		Commented on 2/1/2016
-                    	</div> 
-                	</div>
-            	</div>
-                
-                
-                
-     
-                
-                
-                <!-- Posting Comments --> 
-                
-                <div class="post_comment">
-                    <div class="post_comment_title">
-                    	Post a Comment!
-                    </div>
-                    <textarea class="new_comment_data" placeholder="Enter your comment here!"></textarea>
-                    <div class="user_prompt">
-                    	Posting as: 
-                    </div>
-                    <input class="user_comment">
-                    <br>
-                    <button class="submit_comment_button" type="submit" onclick="postComment()">Submit</button>
-                </div>
-            </div>
 		</div>
 	</div>
 	{{ super () }}

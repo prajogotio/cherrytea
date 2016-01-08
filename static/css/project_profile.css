@@ -149,42 +149,36 @@ body {
 .project_update{
     padding-top: 20px;
 	position:relative;
+    margin-bottom:60px;
 }
 
 .post{
-    
-    padding-top: 60px;
-    
+    border-bottom:1px solid rgba(0,0,0,0.3);  
+    margin-bottom:20px;  
 }
 
 
 .post_title{
-    
     color: antiquewhite;
-    border: 2px solid white;
     text-align: center;
-    padding: 20px;
-    background: #FF4620;
-    
-    
+    padding:8px 20px 8px 20px;
+    background: #1af;
+    border-radius:10px 10px 0 0;
 }
 
 
 .post_post{
-    
     border: 2px solid white;
     color: black;
     text-align: justify;
     background: white;
-    padding-top: 10px;
-    
+    padding: 10px;
 }
 
 .post_date{
-    
     font-style: italic;
     font-size: 15px;
-    padding-top: 10px;
+    padding: 10px;
 }
 
 
@@ -323,4 +317,54 @@ body {
 
 #unfollow-button {
     display:none;
+}
+
+.no-result {
+    padding:10px;
+}
+
+.post_button {
+    font-size:16px;
+    margin-left:12px;
+    padding:10px;
+    cursor:pointer;
+    color:#1af;
+}
+
+.reply-box textarea {
+    width:100%;
+    padding:8px;
+    font-size:15px;
+    height:44px;
+    margin-bottom:8px;
+}
+
+.replies {
+    padding:8px 20px 8px 20px;
+    font-size:18px;
+}
+
+.reply-item {
+    padding:8px;
+    border:1px solid rgba(0,0,0,0.2);
+}
+
+.reply-item {
+}
+
+.reply-item a{
+    color:#1af;
+    text-decoration: none;
+    padding-right:8px;
+}
+
+.date-time {
+    font-size:14px;
+    font-weight:lighter;
+}
+
+.no-reply {
+    font-size:16px;
+    padding:8px 20px 8px 20px;
+    border:1px solid rgba(0,0,0,0.2);
 }

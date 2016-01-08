@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+	
+{% block statics %}
+	<link href="{{ url_for('static', filename='css/post.css') }}" rel="stylesheet" type="text/css">
+	<script src="{{ url_for('static', filename='js/post.js') }}"></script>
+{% endblock %}
+
+
+{% block main_body %}
+	<input type="hidden" name="proj_id" value="{{ info.proj_id }}">
+	<input type="hidden" name="goal" value="{{ info.donation_goal }}">
+	<input type="hidden" name="donated" value="{{ info.donation_total }}">
+
+
+	<div class="main-frame">
+		<div class="caption-title">
+			Project Broadcast
+		</div>
+		<div class="caption-project-name">
+			<a href="/project/{{ info.proj_id }}">{{ info.proj_name }}</a>
+		</div>
+
+		<div class="caption-subtitle">
+			Post Title
+		</div>
+		<div class="field">
+			<input type="text" id="title">
+		</div>
+
+		<div class="caption-subtitle">
+			Post Entry
+		</div>
+		<div class="field">
+			<textarea id="entry"></textarea>
+		</div>
+		<div class="field-submit">
+			<input type="submit" id="submit" value="Publish">
+			<div class="clear-fix"></div>
+		</div>
+
+		<div class="main-frame-end"></div>
+	</div>
+
+	{{ super() }}
+{% endblock %}

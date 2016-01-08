@@ -134,5 +134,68 @@ $(document).ready(function() {
             }
         })
     });
+
+    registerListenerToPosts();
 });
 
+
+function registerListenerToPosts() {
+    var posts = $('.post');
+    for (var i = 0; i < posts.length; ++i) {
+        var cur = posts[i];
+        var broadcast_id = $(cur).find('input[name="broadcast_id"]').first().val();
+        var like = $(cur).find('input[name="like"]').first().val();
+        var textarea = $(cur).find('textarea')[0];
+        var replyList = $(cur).find('.replies')[0];
+        replyEventHandler(textarea, replyList, broadcast_id, like);
+    }
+}
+
+function replyEventHandler(textarea, replyList, broadcast_id, like){
+    var state = {
+        processing : false,
+    }
+    $(textarea).keydown(function(e){
+        if (state.processing) {
+            e.preventDefault();
+            return false;
+        }
+        if(e.which == 13) {
+            state.processing = true;
+            $.ajax({
+                url:'http://'+location.host+'/post/reply',
+                method:'POST',
+                data:{broadcast_id:broadcast_id,
+                      content:$(textarea).val()},
+                beforeSend:function(){
+                    $(textarea).css("color", "#555");
+                }
+            }).done(function(msg) {
+                if(msg.success){
+                    appendReply(replyList, $(textarea).val());
+                    $(textarea).val('');
+                }
+            }).fail(function(msg) {
+                displayNotification("Failed to send reply. Please try again later.");
+            }).always(function(msg) {
+                $(textarea).css("color", "black");
+                state.processing = false;
+            })
+            e.preventDefault();
+            return false;
+        }
+    });
+}
+
+function appendReply(replyList, msg) {
+    $(replyList).find('.no-reply').first().hide();
+    var div = document.createElement('div');
+    div.setAttribute('class', 'reply-item');
+    var txt = '<span><a href="/user">';
+        txt += $('#session_user').val();
+        txt +='</a><span> ';
+        txt += msg;
+        txt += '<br><span class="date-time">replied just now.</span>';
+    div.innerHTML = txt;
+    replyList.appendChild(div);
+}

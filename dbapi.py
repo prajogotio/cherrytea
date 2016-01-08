@@ -92,8 +92,9 @@ class Broadcast(db.Model):
 	broadcast_id = db.Column(db.Integer, primary_key=True)
 	proj_id = db.Column(db.Integer, db.ForeignKey('proj.proj_id'),nullable=False)
 	date_broadcasted = db.Column(db.DateTime)
+	title = db.Column(db.String())
 	content = db.Column(db.Text, nullable=False)
-	num_likes = db.Column(db.Integer)
+	num_likes = db.Column(db.Integer, default=0)
 
 	proj = db.relationship('Project', backref='broadcasts')
 	likers = db.relationship('User', secondary=proj_broadcast_like, backref='liked_broadcasts')
@@ -244,7 +245,6 @@ def init_db():
 		fields = next(reader, None)
 		for row in reader:
 			params = dict(zip(fields, row))
-			print params
 			u = db.session.query(User).filter(User.user_id==int(params['owner_id'])).first()
 			p = Project(**params)
 			u.projects.append(p)
@@ -318,9 +318,10 @@ def unfollow_project(user_id, proj_id):
 	except:
 		return False
 
-def post_broadcast(proj_id, content):
-	try:
+def post_broadcast(proj_id, title, content):
+	#try:
 		params = {'date_broadcasted':datetime.datetime.utcnow(),
+				  'title':title,
 				  'content':content}
 		b = Broadcast(**params)
 		p = Project.query.filter(Project.proj_id==proj_id).first()
@@ -328,8 +329,8 @@ def post_broadcast(proj_id, content):
 		db.session.add(b)
 		db.session.commit()
 		return True
-	except:
-		return False
+	#except:
+		#return False
 
 def like_broadcast(broadcast_id, user_id):
 	try:
@@ -342,8 +343,9 @@ def like_broadcast(broadcast_id, user_id):
 		return False
 
 def reply_broadcast(broadcast_id, user_id, content):
-	try:
-		params = {'content':content,
+	#try:
+		params = {'broadcast_id':broadcast_id,
+				  'content':content,
 				  'date_replied':datetime.datetime.utcnow()}
 		r = BroadcastReply(**params)
 		b = Broadcast.query.filter(Broadcast.broadcast_id==broadcast_id).first()
@@ -355,8 +357,8 @@ def reply_broadcast(broadcast_id, user_id, content):
 		db.session.add(r)
 		db.session.commit()
 		return True
-	except:
-		return False
+	#except:
+		#return False
 
 def record_donation(user_id, proj_id, amount, paypal_id=None, date_donated=None):
 	#try:
@@ -641,4 +643,20 @@ def get_recent_follower_info(proj_id):
 	ret['num_followers'] = row[0]
 	return ret
 
+def get_recent_broadcasts(proj_id, size=5):
+	q = 'SELECT broadcast_id, title, content, num_likes, date_broadcasted FROM proj_broadcast WHERE proj_id={0} ORDER BY date_broadcasted LIMIT {1}'.format(proj_id, size)
+	res = db.engine.execute(q)
+	ret = [dict(r) for r in res]
+	for r in ret:
+		r['date_broadcasted'] = time.strftime('%d %b %Y', r['date_broadcasted'].timetuple())
+	return ret
 
+def get_broadcast_reply(broadcast_id, size=5, offset=0):
+	q = 'SELECT u.user_id, content, date_replied, username FROM proj_broadcast_reply pbr JOIN users u ON pbr.user_id = u.user_id WHERE broadcast_id = {0} ORDER BY date_replied DESC LIMIT {1} OFFSET {2}'.format(broadcast_id, size, offset)
+	res = db.engine.execute(q)
+	replies = [dict(r) for r in res]
+	for r in replies:
+		 r['date_replied'] = time.strftime('%d %b %Y', r['date_replied'].timetuple())
+	return {'replies':replies,
+			'offset':offset,
+			'size':size}
