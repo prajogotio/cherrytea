@@ -1,12 +1,15 @@
-function appendProjectItem(list, title, type, backers, photo_url, project_url) {
+function appendProjectItem(list, title, type, donations, photo_url, project_url) {
 	var div = document.createElement("div");
+	if (photo_url == null) {
+		photo_url = '/static/img/no_poster.jpg';
+	}
 	var str = '<div class="project-item"><div class="project-photo"><img src="';
 		str += photo_url;
 		str += '"></div><div class="project-item-info"><div class="project-title">';
 		str += title;
 		str += '</div><div class="project-backing">';
-		str += backers;
-		str += '<span class="project-backing-caption"> donators</span></div><div class="project-type">';
+		str += donations;
+		str += '<span class="project-backing-caption"> donations</span></div><div class="project-type">';
 		str += type;
 		str += '</div></div></div>';
 	div.innerHTML = str;
@@ -18,9 +21,24 @@ function appendProjectItem(list, title, type, backers, photo_url, project_url) {
 
 
 $(document).ready(function() {
-	appendProjectItem(document.getElementById("recent-list"), "Donate your blood today!", "Donation", 311, "/static/img/t02.jpg", '/project/1');
-	appendProjectItem(document.getElementById("recent-list"), "Donate your blood today!", "Donation", 123, "/static/img/t04.jpg");
-	appendProjectItem(document.getElementById("popular-list"), "Donate your blood today!", "Donation", 222, "/static/img/t05.jpg");
-	appendProjectItem(document.getElementById("popular-list"), "Donate your blood today!", "Donation", 341, "/static/img/t06.jpg");
-	appendProjectItem(document.getElementById("popular-list"), "Donate your blood today!", "Donation", 912, "/static/img/t08.jpg");
-})
+	// populate lists
+	var recentList = $('#recent-list')[0];
+	var popularList = $('#popular-list')[0];
+	var recommendedList = $('#recommendation-list')[0];
+	var allList = [recentList, popularList]
+	var ajaxUrl = ['/ajax/recent_project','/ajax/popular_project']
+	for(var k = 0; k < allList.length;++k){
+		(function(url, theList){
+			$.ajax({
+				url : 'http://'+location.host+url,
+				method : 'GET',
+				data : {'size':3}
+			}).done(function(msg){
+				for (var i = 0; i < msg.length; ++i) {
+					var proj = msg[i];
+					appendProjectItem(theList, proj.proj_name, proj.category, proj.donations, proj.proj_pic_url, '/project/'+proj.proj_id);
+				}
+			});
+		})(ajaxUrl[k],allList[k]);
+	}
+});

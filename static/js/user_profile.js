@@ -61,7 +61,31 @@ function loadImages(src1, src2, src3){
     $(".recently_backed_project").append(img2);
     $(".recently_backed_project").append(img3);
     
-    
-
-
 }
+
+function appendRecentlyBackedProjects(name, data) {
+    var txt = '<span class="info-name">';
+    txt += name;
+    txt += '</span> donated <span class="info-money">$';
+    txt += data.amount;
+    txt += '</span> for <a href="';
+    txt += '/project/'+data.proj_id;
+    txt += '"><span class="info-title">';
+    txt += data.proj_name;
+    txt += '</span></a> on <span class="info-date">';
+    txt += data.date_donated;
+    txt += '.</span>';
+    var div = document.createElement('div');
+    div.setAttribute('class', 'info-item');
+    $(div).html(txt);
+    $('#recently_backed_project')[0].appendChild(div);
+}
+
+$(document).ready(function() {
+    var name = $.trim($('input[name="full_name"]').first().val()) || $('input[name="username"]').first().val()
+    var recent = $.parseJSON($('input[name="recent_backed_list"]').first().val());
+    console.log(recent);
+    for (var i = 0; i < recent.length; ++i) {
+        appendRecentlyBackedProjects(name, recent[i]);
+    }
+});

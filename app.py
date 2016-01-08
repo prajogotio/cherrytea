@@ -80,7 +80,10 @@ def app_view_project(proj_id):
 
 @app.route('/project/<int:proj_id>/payment')
 def app_view_project_payment(proj_id):
-	return render_template('payment.html', proj_id=proj_id)
+	session['payment'] = {}
+	session['payment']['proj_id'] = proj_id
+	info = get_project_profile(proj_id)
+	return render_template('payment.html', info=info)
 
 @app.route('/user/<int:user_id>')
 def app_view_user(user_id):
@@ -115,6 +118,34 @@ def app_update_profile_submission():
 
 	ret = update_user_profile(session['user_id'], params)
 	return jsonify(ret)
+
+
+@app.route('/record/donation', methods=['POST'])
+def app_record_donation():
+	# first iteration of payment method
+	# transaction should be verifiable 
+	# and should be done through SSL connection
+	# this method does not implement those
+	proj_id = request.form.get('proj_id')
+	donation_amount = float(request.form.get('donation_amount'))
+	paypal_id = request.form.get('paypal_id')
+	if not session.get('payment', None) and proj_id != session['payment']['proj_id']:
+		return jsonify(success=False)
+	ret = record_donation(session['user_id'], proj_id, donation_amount, paypal_id)
+	return jsonify(success=ret)
+
+@app.route('/ajax/recent_project', methods=['GET'])
+def app_get_recent_projects():
+	size = int(request.args.get('size', 3))
+	offset = request.args.get('offset', None)
+	return get_json_response(get_recent_projects(size, offset))
+
+@app.route('/ajax/popular_project', methods=['GET'])
+def app_get_popular_projects():
+	size = int(request.args.get('size', 3))
+	offset = request.args.get('offset', None)
+	return get_json_response(get_popular_projects(size, offset))
+
 
 # error handler
 @app.errorhandler(404)

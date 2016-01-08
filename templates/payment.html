@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% block statics %}
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/payment.css') }}">
+	<script src="{{ url_for('static', filename='js/payment.js') }}"></script>
 {% endblock %}
 {% block main_body %}
+	<input type="hidden" name="proj_id" value="{{ info.proj_id }}">
+
     <!-- Payment page -->
     <div id="payment-body" class="main-frame">
 		<div class="payment-item-header">
 			<div id="payment-title" class="payment-item">Contribute</div>
 			<div class="payment-item-text">Every small bit helps. Thank you for giving.</div>
-		</div>
-		<div class="payment-item">
-			<input id="payment-back" type="submit" class="payment-button-back" value="<< Back to Project Details"/>
 		</div>
 
 		<!--Project details-->
@@ -19,14 +19,13 @@
 			<!-- Control project details text via js and retrieve from database -->
 			<div id="project-details-box" class="box-filled">
 					<div class="project-details-caption">Project ID</div>
-					<div id="project-id" class="project-details-text">9999</div>
+					<div id="project-id" class="project-details-text">{{ info.proj_id }}</div>
 
 					<div class="project-details-caption">Title</div>
-					<div id="project-title" class="project-details-text">Water for Africa</div>
+					<div id="project-title" class="project-details-text">{{ info.proj_name }}</div>
 
 					<div class="project-details-caption">Summary</div>
-					<div id="project-summary" class="project-details-text">Distributing water to people in Africa. Water is a scarce resource, and not everyone has access to it. Your contribution will help bring
-					life to all of Africa.</div>
+					<div id="project-summary" class="project-details-text">{{ info.proj_desc }}</div>
 			</div>
 		</div>
 
@@ -54,6 +53,34 @@
 			</select>
 		</div>
 
+		<div class="footer-options">
+			<div class="payment-item">
+				<input id="payment-back" type="submit" class="payment-button back-button float-left" value="Back to Project Details"
+				onclick="window.location.href='/project/{{ info.proj_id }}'"/>
+			</div>
+			<div class="payment-item">
+				<input id="payment-confirm" type="submit" class="payment-button ok-button float-right" value="Confirm Donation"/>
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
 	</div>
 
+	<div id="completed-screen" class="completed-screen">
+		<div class="title-caption">
+			Thank you for your donation!
+		</div>
+		<div class="title-subcaption">
+			Your donation has been successfully processed and authorised. We sincerely thank you for your contribution to this project. 
+		</div>
+		<div class="completed-options">
+			<div class="option-button float-left" onclick="window.location.href='/project/{{ info.proj_id }}'">
+				Back to Project Profile
+			</div>
+			<div class="option-button float-right" onclick="window.location.href='/'">
+				Go to Home Page
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+	</div>
 {% endblock %}

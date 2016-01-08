@@ -23,7 +23,7 @@
 				</div>
 			</div>
 			<div id="profile-right" class="float-right">
-				<div class="large-field">
+				<div class="normal-field">
 					<div class="field-caption">
 						Username
 					</div>
@@ -31,7 +31,7 @@
 						{{ info.username if info.username != None else 'Invalid User Profile'}}
 					</div>
 				</div>
-				<div class="normal-field">
+				<div class="large-field">
 					<div class="field-caption">
 						Name
 					</div>
@@ -108,14 +108,15 @@
             </div>
             <div class="recently-backed">
                 <div class="recently_backed_title">Recently Backed Projects</div>
-                <div class="recently_backed_project">
+                <div id='recently_backed_project' class="recently_backed_project">
                 <!-- Show only 3 Recently Backed Projects  -->
-
+                	
 				</div>
             </div>
         </div>   
 	</div>
 
-	<input type="hidden" name="recent_backed_list" value={{ info.recently_backed_projects }}>
-
+	<input type="hidden" name="recent_backed_list" value="{{ info.recently_backed_projects }}">
+	<input type="hidden" name="full_name" value="{{ info.profile.full_name }}">
+	<input type="hidden" name="username" value="{{ info.username }}">
 {% endblock %}

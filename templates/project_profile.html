@@ -4,6 +4,10 @@
 	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/project_profile.css') }}"> 
 {% endblock %}
 {% block main_body %}
+	
+	<input type="hidden" name="goal" value="{{ info.donation_goal }}">
+	<input type="hidden" name="donated" value="{{ info.donation_total }}">
+
 
 	<div id="main-wrapper">
 		<div class="project-profile">
@@ -11,6 +15,8 @@
 				<div class="profile-picture">
 					{% if info.proj_pic_url %}
 					<img src="{{ info.proj_pic_url }}">
+					{% else %}
+					<img src="{{ url_for('static', filename='img/no_poster.jpg') }}">
 					{% endif %}
 				</div>
 			</div>
@@ -65,7 +71,7 @@
 						Managed by
 					</div>
 					<div id="project-owner">
-						<a href='/user/{{ info.owner_id }}'>{{ info.owner_username }}</a>
+						<a class='user-link' href='/user/{{ info.owner_id }}'>{{ info.owner_username }}</a>
 					</div>
 				</div>
 
@@ -77,29 +83,44 @@
 						{{ info.charity_org }}
 					</div>
 				</div>
-
-				<div class="project-statistics">
-					<div id="money-bar">
-						<div id="money-goal"></div>
-						<div id="money-gauge"></div>
-					</div>
-					<div class="stat-field float-left">
-						<div id="donation-goal">${{ info.donation_goal }}</div>
-						<div class="stat-caption">Donation Goal</div>
-					</div>
-					<div class="stat-field float-left">
-						<div id="donation-collected">${{ info.donation_total }}</div>
-						<div class="stat-caption">Collected</div>
-					</div>
-					<div class="stat-field float-left">
-						<div id="number-of-donor">{{ info.num_of_backers if info.num_of_backers != None else 0 }}</div>
-						<div class="stat-caption">Donors</div>
-					</div>
-					<div class="clear-fix"></div>
-				</div>
 			</div>
 			<div class="clear-fix"></div>
 		</div>
+
+		<div class="project-statistics">
+			<div class="stat-title">
+				Project statistics
+			</div>
+			<div id="money-bar">
+				<div id="money-goal"></div>
+				<div id="money-gauge"></div>
+				<div id="money-goal-overlay"></div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="donation-goal">${{ info.donation_goal }}</div>
+				<div class="stat-caption">Donation Goal</div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="donation-collected">${{ info.donation_total }}</div>
+				<div class="stat-caption">Collected</div>
+			</div>
+			<div class="stat-field float-left">
+				<div id="number-of-donor">{{ info.num_of_backers }}</div>
+				<div class="stat-caption">Donors</div>
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
+		<div class="project-interaction">
+			<div class="float-right project-button" onclick="window.location.href='/project/{{ info.proj_id }}/payment'">
+				Donate
+			</div>
+			<div class="float-right project-button">
+				Follow
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
 		<div class="project-information">
             <div class="project_updates_title">Campaign</div>
             <div class="campaign">
@@ -108,35 +129,43 @@
             <div class="project_updates_title">Project Updates </div>
             <!-- Updates --> 
             
-                <div class="project_update">
+            <div class="project_update">
                 <div class="post">
-                    <div class="post_title">Update #3: Bringing Water Containers to America</div>
-                    <div class="post_post">This is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit.
-                    <br>
-                    <br>
+                    <div class="post_title">
+                    	Update #3: Bringing Water Containers to America
+                    </div>
+                    <div class="post_post">
+                    	This is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit.
+                    	<br>
+                    	<br>
                         This is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit. his is an example post. blah blah blah. This will take some text. this will be longer for longers sake so as to test the max length of this shit.
                     </div>
-                    <div class="post_date">Posted on 2/1/2016. </div>
+                    <div class="post_date">
+                    	Posted on 2/1/2016.
+                    </div>
+              	</div>
+                
+            </div>       
+                
+        	<!-- Comments --> 
+        	<div class="comment_section">  
+                <div class="comment_section_title">
+                	Comments
                 </div>
                 
-              </div>       
-            </div>
-                
-            <!-- Comments --> 
-            
-        <div class="comment_section">  
-            
-                <div class="comment_section_title">Comments</div>
-              
-                
-                
-               <div class="comments"> 
-                <div class="comment">
-                    <div class="comment_user">Commmmenter123</div>
-                    <div class="comment_text">I am commenting on a comment in a comment box. Typing to see how long before I exceed the limit of this nugget.</div>
-                    <div class="comment_date">Commented on 2/1/2016</div> 
-                </div>
-            </div>
+            	<div class="comments"> 
+                	<div class="comment">
+                    	<div class="comment_user">
+                    		Commmmenter123
+                    	</div>
+                    	<div class="comment_text">
+                    		I am commenting on a comment in a comment box. Typing to see how long before I exceed the limit of this nugget.
+                    	</div>
+                    	<div class="comment_date">
+                    		Commented on 2/1/2016
+                    	</div> 
+                	</div>
+            	</div>
                 
                 
                 
@@ -146,21 +175,19 @@
                 <!-- Posting Comments --> 
                 
                 <div class="post_comment">
-                    <div class="post_comment_title">Post a Comment!</div>
+                    <div class="post_comment_title">
+                    	Post a Comment!
+                    </div>
                     <textarea class="new_comment_data" placeholder="Enter your comment here!"></textarea>
-                    <div class="user_prompt">Posting as: </div>
+                    <div class="user_prompt">
+                    	Posting as: 
+                    </div>
                     <input class="user_comment">
                     <br>
                     <button class="submit_comment_button" type="submit" onclick="postComment()">Submit</button>
-                    
-                    
                 </div>
-                
-                
-                
-                
             </div>
-                
-               
-	</div>
+		</div>
+
+
 {% endblock %}

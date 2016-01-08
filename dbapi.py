@@ -72,6 +72,8 @@ class Project(db.Model):
 	other_info = db.Column(db.Text)
 	paypal_id = db.Column(db.Integer, db.ForeignKey('paypal.paypal_id'))
 	proj_pic_id = db.Column(db.Integer, db.ForeignKey('profile_pic.pic_id'))
+	num_of_donations = db.Column(db.Integer, default=0)
+
 
 	owner = db.relationship('User', backref='projects')
 	followers = db.relationship('User', secondary=proj_follower, backref='following')
@@ -242,8 +244,8 @@ def init_db():
 		fields = next(reader, None)
 		for row in reader:
 			params = dict(zip(fields, row))
+			print params
 			u = db.session.query(User).filter(User.user_id==int(params['owner_id'])).first()
-			params['owner_id'] = None
 			p = Project(**params)
 			u.projects.append(p)
 			db.session.add(p)
@@ -347,23 +349,23 @@ def reply_broadcast(broadcast_id, user_id, content):
 		return False
 
 def record_donation(user_id, proj_id, amount, paypal_id=None):
-	try:
+	#try:
 		params = {'amount':amount,
+				  'proj_id':proj_id,
 				  'paypal_id':paypal_id,
 				  'date_donated':datetime.datetime.utcnow()}
 		d = Donation(**params)
 		u = User.query.filter(User.user_id==user_id).first()
 		p = Project.query.filter(Project.proj_id==proj_id).first()
-		#d.donator.append(u)
-		#d.proj.append(p)
 		u.donations.append(d)
 		p.donations.append(d)
 		p.donation_total += amount
+		p.num_of_donations += 1
 		db.session.add(d)
 		db.session.commit()
 		return True
-	except:
-		return False
+	#except:
+		#return False
 
 def create_user_profile(user_id, params):
 	try:
@@ -442,22 +444,32 @@ def get_membership(user_id):
 
 def get_num_of_backed_projects(user_id):
 	try:
-		x = db.engine.execute('SELECT COUNT(DISTINCT proj_id) FROM donation WHERE donator_id=='+user_id)
+		x = db.engine.execute('SELECT COUNT(DISTINCT proj_id) FROM donation WHERE donator_id='+str(user_id))
 		res = x.fetchone()
 		return res[0]
 	except:
 		return 0
 
+def get_num_of_project_backers(proj_id):
+	#try:
+		x = db.engine.execute('SELECT COUNT(DISTINCT donator_id) FROM donation WHERE proj_id='+str(proj_id))
+		res = x.fetchone()
+		return res[0]
+	#except:
+	#	return 0
+
 def get_recently_backed_projects(user_id):
-	try:
-		x = db.engine.execute('SELECT proj_id, date_donated, amount FROM donation WHERE donator_id=='+user_id+' ORDER BY date_donated desc LIMIT 3')
+	#try:
+		x = db.engine.execute('SELECT d.proj_id, d.date_donated, amount, pp.pic_url, p.proj_name FROM donation d JOIN proj p ON d.proj_id = p.proj_id LEFT JOIN profile_pic pp ON pp.pic_id = p.proj_pic_id WHERE donator_id=%d ORDER BY date_donated desc LIMIT 3' % user_id)
 		res = [{'proj_id':row[0], 
-				'date_donated':row[1], 
-				'amount':row[2]} 
+				'date_donated':time.strftime('%d %b %Y', row[1].timetuple()), 
+				'amount':row[2],
+				'pic_url':row[3],
+				'proj_name':row[4]} 
 				for row in x]
 		return res
-	except:
-		return None
+	#except:
+	#	return None
 
 def get_join_date(user_id):
 	try:
@@ -498,9 +510,38 @@ def get_project_profile(proj_id):
 			   'status':p.status,
 			   'num_followers':p.num_followers,
 			   'other_info':p.other_info,
+			   'num_of_backers':get_num_of_project_backers(proj_id)
 			   }
 		if p.proj_pic_id:
 			pic = ProfilePicture.query.filter(ProfilePicture.pic_id==p.proj_pic_id).first()
 			res['proj_pic_url'] = pic.pic_url
 		return res
 	return {'success':False}
+
+def get_recent_projects(size=3, offset=None):
+	q = 'SELECT proj_id, category, proj_name, num_of_donations, pic_url FROM proj p LEFT JOIN profile_pic pp ON p.proj_pic_id = pp.pic_id ORDER BY date_created desc LIMIT %d' % size
+	if offset:
+		q += ' OFFSET %d' % offset
+	res = db.engine.execute(q);
+	
+	ret = [{'proj_id':r[0],
+			'category':r[1],
+			'proj_name':r[2],
+			'donations':r[3],
+			'proj_pic_url':r[4]}
+			for r in res]
+	return ret
+
+def get_popular_projects(size=3, offset=None):
+	q = 'SELECT proj_id, category, proj_name, num_of_donations, pic_url FROM proj p LEFT JOIN profile_pic pp ON p.proj_pic_id = pp.pic_id ORDER BY num_of_donations desc, date_created desc LIMIT %d' % size
+	if offset:
+		q += ' OFFSET %d' % offset
+	res = db.engine.execute(q);
+	
+	ret = [{'proj_id':r[0],
+			'category':r[1],
+			'proj_name':r[2],
+			'donations':r[3],
+			'proj_pic_url':r[4]}
+			for r in res]
+	return ret

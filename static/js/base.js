@@ -8,3 +8,13 @@ function displayNotification(txt) {
 		});
 	}, 2000);
 }
+
+
+function displayWaitingBox(txt) {
+	$('#waiting-box-content').html(txt);
+	$('#waiting-box').show();
+}
+
+function closeWaitingBox() {
+	$('#waiting-box').hide();
+}

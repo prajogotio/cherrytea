@@ -9,7 +9,7 @@ body {
 	height:100%;
 	margin:0;
 	padding:0;
-	background-color:#2096FF;
+	background-color:#3af;
 }
 
 #main-wrapper {
@@ -109,7 +109,7 @@ body {
 
 #head-wrapper {
 	min-width:800px;
-	background-color:#2096FF;
+	background-color:#3af;
 }
 
 .head-menu-href:hover {

@@ -90,11 +90,14 @@ function postComment(){
 
 
 
-
-
-
-
-
-
-
+$(document).ready(function() {
+    // set donation/goal bar
+    var goal = parseFloat($('input[name="goal"]').first().val());
+    var donated = parseFloat($('input[name="donated"]').first().val());
+    var goalCovered = donated/goal*70;
+    $('#money-gauge').css('width', goalCovered+'%');
+    if (goalCovered > 70) {
+        $('#money-gauge').css('background-color', '#fb1')
+    }
+});
 

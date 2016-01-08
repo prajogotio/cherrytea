@@ -40,10 +40,10 @@
 				method:'POST'
 			}).done(function(msg){
 				console.log('success', msg);
-				$('#submit').attr('value', "update");
 				displayNotification("Profile is updated!")
 			}).fail(function(msg){
 				console.log('fail', msg);
+			}).always(function(msg){
 				$('#submit').attr('value', "update");
 			});
 		});
