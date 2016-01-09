@@ -1,0 +1,1 @@
+web: gunicorn -k gevent_wsgi app:app --log-file -
