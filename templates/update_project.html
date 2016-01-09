@@ -33,12 +33,18 @@
 
 			<div class="field-wrapper">
 				<div class="field-label">Current Project Poster</div>
-				<div class="field-thumbnail"><img src="{{ info.proj_pic_url }}"></div>
+				<div class="field-thumbnail">
+					{% if info.proj_pic_url %}
+					<img src="{{ info.proj_pic_url }}">
+					{% else %}
+					Not set.
+					{% endif %}
+				</div>
 			</div>
 			<div class="field-wrapper">
 				<div class="field-label">Change Project Poster</div>
 				<input class="field-upload" id="proj-pic-file" type="file">
-				<div id="proj-pic-file-info" class="field-upload-info">No project picture yet.</div>
+				<div id="proj-pic-file-info" class="field-upload-info">No file chosen yet.</div>
 			</div>
 			<div class="field-wrapper">
 				<div class="field-label">Revise Donation Goal [in terms of USD]</div>

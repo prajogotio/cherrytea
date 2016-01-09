@@ -245,6 +245,18 @@ def app_donation_stats():
 	proj_id = request.args.get('proj_id')
 	return get_json_response(get_donation_statistics(proj_id))
 
+@app.route('/ajax/notif')
+def get_notification():
+	if not session.get('user_id'):
+		return get_json_response([])
+	offset_id = request.args.get('offset_id', 0)
+	return get_json_response(retrieve_notification(session['user_id'], offset_id))
+
+@app.route('/ajax/notif/read')
+def mark_read_notification():
+	notif_id = request.args.get('notif_id')
+	return jsonify(success=mark_notification_as_read(notif_id))
+
 @app.route('/logout')
 def app_logout():
 	session.clear()

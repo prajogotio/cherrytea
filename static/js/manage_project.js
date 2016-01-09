@@ -34,7 +34,10 @@ function drawGraph(container, points, width, height) {
 	var level = Math.floor(Math.log(max)/Math.log(10));
 	var order = Math.pow(10,level)
 	var divisor = Math.ceil(max/order);
-	console.log(level, order, divisor);
+	if (max == 0) {
+		$(container).html("Currently there is not enough data.")
+		return;
+	}
 
 	var barWidth = 27;
 	var step = (width-2*(padding)-points.length*barWidth)/(points.length+1);

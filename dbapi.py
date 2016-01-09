@@ -211,6 +211,25 @@ class UserProfile(db.Model):
 	def __repr__(self):
 		return '<Profile[{id}] - {username}>'.format(id=self.profile_id,username=self.user.username)
 
+class Notification(db.Model):
+	UNREAD = 0
+	READ = 1
+
+	__tablename__ = 'notif'
+	notif_id = db.Column(db.Integer, primary_key=True)
+	recipient_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+	content = db.Column(db.String())
+	date_created = db.Column(db.DateTime)
+	status = db.Column(db.Integer, default=UNREAD)
+
+
+	def __init__(self, **kwargs):
+		for key in kwargs:
+			setattr(self, key, kwargs[key])
+
+	def __repr__(self):
+		return '<Notification[{id}] - {content}>'.format(id=self.notif_id,username=self.content)
+
 
 
 class ProfilePicture(db.Model):
@@ -346,6 +365,10 @@ def post_broadcast(proj_id, title, content):
 		p.broadcasts.append(b)
 		db.session.add(b)
 		db.session.commit()
+
+		for f in b.proj.followers:
+			make_notification(f.user_id, '<a href=\'/project/{proj_id}\'>{proj_name}</a> has broadcasted a new update!'.format(proj_id=b.proj.proj_id,proj_name=b.proj.proj_name))
+
 		return True
 	#except:
 		#return False
@@ -357,6 +380,9 @@ def like_broadcast(broadcast_id, user_id):
 		b.likers.append(u)
 		b.num_likes += 1
 		db.session.commit()
+
+		make_notification(b.proj.owner_id, '<a href=\'/user/{user_id}\'>{username}</a> liked your broadcast on <a href=\'/project/{proj_id}\'>{proj_name}</a>.'.format(user_id=user_id, username=u.username, proj_id=b.proj.proj_id, proj_name=b.proj.proj_name))
+
 		return True
 	#except:
 	#	return False
@@ -388,6 +414,8 @@ def reply_broadcast(broadcast_id, user_id, content):
 		b.replies.append(r)
 		db.session.add(r)
 		db.session.commit()
+
+		make_notification(b.proj.owner_id, '<a href=\'/user/{user_id}\'>{username}</a> replied to your broadcast on <a href=\'/project/{proj_id}\'>{proj_name}</a>.'.format(user_id=user_id, username=u.username, proj_id=b.proj.proj_id, proj_name=b.proj.proj_name))
 		return True
 	#except:
 		#return False
@@ -409,6 +437,8 @@ def record_donation(user_id, proj_id, amount, paypal_id=None, date_donated=None)
 		p.num_of_donations += 1
 		db.session.add(d)
 		db.session.commit()
+
+		make_notification(p.owner_id, '<a href=\'/user/{user_id}\'>{username}</a> donated ${amount} to <a href=\'/project/{proj_id}\'>{proj_name}</a>.'.format(user_id=user_id, username=u.username, proj_id=proj_id, proj_name=p.proj_name,amount=amount))
 		return True
 	#except:
 		#return False
@@ -743,3 +773,28 @@ def get_donation_statistics(proj_id):
 
 	return [{'x':time.strftime('%b %y', time.strptime(t, '%Y%m')),
 		     'y':ret.get(t, 0)} for t in needed]
+
+def make_notification(recipient_id, content):
+	params = {'recipient_id':recipient_id,
+			  'content':content,
+			  'date_created':datetime.datetime.utcnow()}
+	n = Notification(**params)
+	db.session.add(n)
+	db.session.commit()
+	return True
+
+def retrieve_notification(user_id, offset_id=0):
+	now = datetime.date.today()
+	limit = now - datetime.timedelta(days=7)
+	q = "SELECT notif_id, content, date_created, status FROM notif WHERE recipient_id={0} AND date_created > date(\'{1}\') AND notif_id > {2} ORDER BY date_created DESC LIMIT 20".format(user_id, time.strftime('%Y%m%d', limit.timetuple()), offset_id)
+	res = db.engine.execute(q)
+	ret = [dict(r) for r in res]
+	for r in ret:
+		r['date_created'] = time.strftime('%d %b %Y', r['date_created'].timetuple())
+	return ret
+
+def mark_notification_as_read(notif_id):
+	n = Notification.query.filter(Notification.notif_id==notif_id).first()
+	n.status = Notification.READ
+	db.session.commit()
+	return True
