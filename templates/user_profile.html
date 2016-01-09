@@ -5,7 +5,11 @@
 {% endblock %}
 {% block main_body %}
 	<div id="main-wrapper">
-
+		<div class="shortcut-menu">
+			<div class="shortcut-menu-item float-left"><a href="/update/user/{{ session.user_id }}">Update</a></div>
+			<div class="clear-fix"></div>
+		</div>
+		
 {% if info.profile_owner and not info.profile.found %}
 		<div class="user-notice">
 			You have not updated your profile yet. Click <a href='/update/user_profile'>here</a> to update!

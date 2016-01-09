@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block statics %}
+	<link href="{{ url_for('static', filename='css/dashboard.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block main_body %}
+
+	<div class="main-frame">
+		<div class="caption-title">
+			Dashboard
+		</div>
+
+		<div class="management-options">
+			<div class="option-item float-left" onclick="location.href='/create/project'">
+				Create Project
+			</div>
+			<div class="option-item float-left" onclick="location.href='/update/user_profile/'">
+				Update Organization Profile
+			</div>
+			<div class="clear-fix"></div>
+		</div>
+
+		<div class="caption-subtitle">
+			Ongoing Projects
+		</div>
+
+		<div class="projects">
+			{% if info %}
+				{% for p in info %}
+					<div class="proj-item">
+		                <div class="proj-thumbnail float-left">
+		                    <img 
+		                    {% if p.pic_url %}
+		                    src="{{ p.pic_url }}"
+		                    {% else %}
+		                    src="/static/img/no_poster.jpg"
+		                    {% endif %} 
+		                    onclick='window.location.href="/manage/project/{{ p.proj_id }}"'>
+		                </div>
+		                <div class="proj-info float-left">
+		                    <div class="proj-name"><a href='/manage/project/{{ p.proj_id }}'>{{ p.proj_name }}</a></div>
+		                    <div class="proj-desc">{{ p.proj_desc }}</div>
+		                     <div class="proj-category">{{ p.category }}</div>
+		                    <div class="proj-metadata">
+		                        <div class="proj-donation float-left">{{ p.num_of_donations }} donations</div>
+		                        <div class="proj-date float-right">Created on {{ p.date_created }}</div>
+		                        <div class="clear-fix"></div>
+		                    </div>
+		                </div>
+		                <div class="clear-fix"></div>
+		            </div>
+		        {% endfor %}
+	        {% else %}
+	        <div class='no-result'>You have no ongoing projects.</div>
+	        {% endif %}
+		</div>
+
+		<div class="main-frame-end"></div>
+	</div>
+	
+	{{ super() }}
+{% endblock %}

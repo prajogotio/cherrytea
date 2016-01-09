@@ -22,6 +22,9 @@
 			Management
 		</div>
 		<div class="management-options">
+			<div class="option-item float-left" onclick="location.href='/project/{{ info.proj_id }}'">
+				View
+			</div>
 			<div class="option-item float-left" onclick="location.href='/project/{{ info.proj_id }}/post'">
 				Broadcast new post
 			</div>
@@ -35,7 +38,8 @@
 			Donation Graph
 		</div>
 		<div class="donation-graph">
-			<!-- donation for 7 days -->
+			<div class='donation-graph-subtitle'>Donation in last 7 months</div>
+			<div id="graph"></div>
 		</div>
 
 		<div class="caption-subtitle">

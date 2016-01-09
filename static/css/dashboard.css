@@ -162,21 +162,56 @@
 	background-color:#129;
 }
 
-.donation-graph {
-	padding-left:20px;
-	border-bottom:1px solid rgba(0,0,0,0.3);
+
+
+
+.proj-item {
+	border:1px solid rgba(0,0,0,0.2);
+	padding:16px 20px 16px 20px;
 }
 
-.donation-graph-subtitle {
-	padding-top:10px;
-	padding-bottom:10px;
-	font-size:18px;
-	font-style:italic;
-	text-align:center;
+.proj-thumbnail {
+	width:26%;
+	overflow:hidden;
+	border:3px solid rgba(0,0,0,0.3);
+	max-height:200px;
 }
 
-#graph {
-	display:inline-block;
-	text-align:center;
+.proj-thumbnail img {
 	width:100%;
+}
+
+.proj-info {
+	margin-left:3%;
+	font-size:17px;
+	width:70%;
+}
+
+
+.proj-name {
+	font-size:23px;
+}
+
+.proj-owner {
+	margin-top:8px;
+}
+
+
+.proj-name a, .proj-owner a{
+	text-decoration: none;
+	color:#19e;
+}
+
+.proj-desc {
+	margin-top:20px;
+}
+
+.proj-metadata {
+	margin-top:20px;
+	font-weight: lighter;
+}
+
+.proj-category {
+	margin-top:20px;
+	color:green;
 }

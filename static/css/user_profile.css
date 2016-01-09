@@ -158,3 +158,28 @@ body {
 .info-money {
 	color:green;
 }
+
+
+.shortcut-menu {
+	position:relative;
+    width:70%;
+    margin-left:15%;
+    font-size:18px;
+    border-bottom:1px solid rgba(0,0,0,0.2);
+    margin-bottom:10px;
+}
+
+.shortcut-menu-item {
+    border-left:1px solid rgba(0,0,0,0.2);
+    padding:8px 20px 8px 20px;
+}
+
+.shortcut-menu-item:hover {
+    background-color:#fe8;
+}
+
+.shortcut-menu-item a {
+    color:#f83;
+    cursor:pointer;
+    text-decoration: none;
+}

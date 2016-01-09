@@ -115,7 +115,7 @@ def app_view_search_results_specified(search_term):
 	info = {'search_term':search_term}
 	return render_template('search_results.html', info=info)
 
-@app.route('/update/user_profile')
+@app.route('/update/user_profile/')
 def app_update_profile():
 	info = get_profile_info(session, session['user_id'])
 	return render_template('update_profile.html', info=info)
@@ -235,7 +235,15 @@ def app_update_project_submission():
 				   request.form.get('proj_pic'))
 	return jsonify(ret)
 
+@app.route('/dashboard')
+def app_dashboard():
+	info = get_owned_projects(session['user_id'])
+	return render_template('dashboard.html',info=info)
 
+@app.route('/ajax/donation_stats')
+def app_donation_stats():
+	proj_id = request.args.get('proj_id')
+	return get_json_response(get_donation_statistics(proj_id))
 
 @app.route('/logout')
 def app_logout():

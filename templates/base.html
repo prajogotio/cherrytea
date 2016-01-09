@@ -33,14 +33,14 @@
 		{% else %}
 		<!-- case 2: logged in -->
 		<div id="head-menu-icon" class="float-right head-menu-href">
-			<a href="#">Menu</a>
+			<a>Menu</a>
 		</div>
 
 		<div id="head-user-profile-link" class="float-right head-menu-href">
 			<a href="/user/{{ session.user_id }}">{{ session.username }}</a>
 		</div>
 		<div class="float-right head-menu-href">
-			<a href="#">Notification</a>
+			<a href="/">News</a>
 		</div>
 		<div class="float-right head-menu-href">
 			<a href="/">Home</a>
@@ -62,7 +62,7 @@
 	<div id="menu-options-layer">
 		<div id="menu-options">
 			<div class="menu-item"><a href="/create/project">Create Project</a></div>
-			<div class="menu-item"><a href="/manage/project">Manage Projects</a></div>
+			<div class="menu-item"><a href="/dashboard">Manage Projects</a></div>
 			<div class="menu-item"><a href="/user/{{ session.user_id }}">Profile</a></div>
 			<div class="menu-item"><a href="/logout">Log out</a></div>
 		</div>

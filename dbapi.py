@@ -697,3 +697,49 @@ def is_broadcast_liked(broadcast_id, user_id):
 	b = Broadcast.query.filter(Broadcast.broadcast_id==broadcast_id).first()
 	u = User.query.filter(User.user_id==user_id).first()
 	return u in b.likers
+
+def get_owned_projects(user_id, options={}):
+	q = 'SELECT p.proj_id, p.proj_name, p.proj_desc, p.date_created, p.num_of_donations, p.category, \
+				pp.pic_url\
+		FROM proj p\
+		LEFT JOIN profile_pic pp\
+		ON pp.pic_id = p.proj_pic_id\
+		WHERE p.owner_id = {0}\
+		ORDER BY p.num_of_donations DESC, p.date_created DESC\
+		LIMIT {1} OFFSET {2}\
+		'.format(user_id, options.get('size', 100), options.get('offset', 0))
+	res = db.engine.execute(q).fetchall()
+	
+	ret = [dict(row) for row in res]
+
+	for r in ret:
+		r['date_created'] = time.strftime('%d %b %Y', r['date_created'].timetuple())
+	return ret
+
+def get_donation_statistics(proj_id):
+	# get donations for past 7 months
+	now = datetime.date.today()
+	limit = now - datetime.timedelta(days=30*7)
+	q = 'SELECT SUM(amount) AS total, to_char(date_donated, \'YYYYMM\') AS month_year\
+		 FROM donation \
+		 WHERE proj_id={0}\
+		 AND date_donated > date(\'{1}\')\
+		 GROUP BY month_year\
+		 ORDER BY month_year DESC\
+		 LIMIT 7'.format(proj_id, time.strftime('%Y%m%d', limit.timetuple()))
+	res = db.engine.execute(q)
+	ret = {}
+	for r in res:
+		ret[r['month_year']] = r['total']
+	cur_month = now.timetuple().tm_mon;
+	cur_year = now.timetuple().tm_year;
+	needed = []
+	for i in range(7):
+		if cur_month == 0:
+			cur_year -= 1
+			cur_month = 12
+		needed.append(time.strftime('%Y%m', datetime.datetime(cur_year, cur_month, 1).timetuple()))
+		cur_month -= 1
+
+	return [{'x':time.strftime('%b %y', time.strptime(t, '%Y%m')),
+		     'y':ret.get(t, 0)} for t in needed]
