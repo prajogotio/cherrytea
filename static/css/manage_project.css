@@ -26,7 +26,7 @@
 
 .caption-subtitle {
 	font-size:22px;
-	background-color:rgba(255,73,72,0.9);
+	background-color:#125;
 	color:white;
 	padding:8px 20px 8px 20px;
 	border-radius:10px 10px 0 0;
@@ -156,4 +156,8 @@
 	position:relative;
 	margin-top:70px;
 	height:1px;
+}
+
+#head-wrapper {
+	background-color:#129;
 }

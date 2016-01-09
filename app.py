@@ -79,6 +79,7 @@ def app_view_project(proj_id):
 	info['followed'] = is_project_follower(proj_id, session['user_id'])
 	info['broadcasts'] = get_recent_broadcasts(proj_id, 5)
 	for b in info['broadcasts']:
+		b['like'] = is_broadcast_liked(b['broadcast_id'], session['user_id'])
 		b['replies'] = get_broadcast_reply(b['broadcast_id'])
 	return render_template('project_profile.html', info=info)
 
@@ -105,7 +106,7 @@ def app_view_user(user_id):
 def app_view_user_charity(user_charity_id):
 	return render_template('user_charity_profile.html', user_charity_id=user_charity_id)
 
-@app.route('/search_results')
+@app.route('/search_results/')
 def app_view_search_results():
 	return render_template('search_results.html', info={})
 
@@ -203,6 +204,38 @@ def app_post_reply():
 	content = request.form.get('content')
 	broadcast_id = int(request.form.get('broadcast_id'))
 	return jsonify(success=reply_broadcast(broadcast_id, session['user_id'], content))
+
+@app.route('/post/like', methods=['POST'])
+def app_post_like():
+	broadcast_id = request.form.get('broadcast_id')
+	return jsonify(success=like_broadcast(broadcast_id, session['user_id']))
+
+
+@app.route('/post/unlike', methods=['POST'])
+def app_post_unlike():
+	broadcast_id = request.form.get('broadcast_id')
+	return jsonify(success=unlike_broadcast(broadcast_id, session['user_id']))
+
+@app.route('/update/project/<int:proj_id>')
+def app_update_project(proj_id):
+	info = get_project_profile(proj_id)
+	return render_template('update_project.html', info=info)
+
+
+@app.route('/update/project/submit', methods=['POST'])
+def app_update_project_submission():
+	ret = update_project(request.form.get('proj_id'), 
+				   request.form.get('proj_name'), 
+				   request.form.get('proj_desc'), 
+				   request.form.get('location'), 
+				   request.form.get('category'), 
+				   request.form.get('donation_goal'), 
+				   request.form.get('charity_org'), 
+				   request.form.get('other_info'),
+				   request.form.get('proj_pic'))
+	return jsonify(ret)
+
+
 
 @app.route('/logout')
 def app_logout():

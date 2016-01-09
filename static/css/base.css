@@ -39,7 +39,7 @@ body {
 
 .head-menu-href {
 	margin-left:14px;
-	padding:4px;
+	padding:4px 8px 4px 8px;
 	text-align: center;
 	border-radius:10px;
 	transition:background-color 0.5s;
@@ -102,7 +102,7 @@ body {
 
 .notif-list {
 	position:fixed;
-	bottom:0;
+	top:50px;
 	left:0;
 	width:480px;
 	padding:10px;

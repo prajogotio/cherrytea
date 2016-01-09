@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block statics %}
+	<script src="{{ url_for('static', filename='js/update_project.js') }}"></script>
+	<link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/update_project.css') }}"> 
+{% endblock %}
+{% block main_body %}
+	<input type="hidden" id="proj_id" value="{{ info.proj_id }}">
+	<div id="main-wrapper">
+		<div class="main-title">
+			Project Update
+		</div>
+		<div id="inner-wrapper">
+			<div class="field-wrapper">
+				<div class="field-label">Project Title</div>
+				<input id="proj-name-input" class="field-input" type="text" value="{{ info.proj_name }}">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Short Description</div>
+				<input id="proj-desc-input" class="field-input" type="text" value="{{ info.proj_desc }}">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Category</div>
+				<input id="category-input" class="field-input" type="text" value="{{ info.category }}">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Location</div>
+				<input id="location-input" class="field-input" type="text" value="{{ info.location }}">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Name of Charity Organisation</div>
+				<input id="charity-org-input" class="field-input" type="text" value="{{ info.charity_org }}">
+			</div>
+
+			<div class="field-wrapper">
+				<div class="field-label">Current Project Poster</div>
+				<div class="field-thumbnail"><img src="{{ info.proj_pic_url }}"></div>
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Change Project Poster</div>
+				<input class="field-upload" id="proj-pic-file" type="file">
+				<div id="proj-pic-file-info" class="field-upload-info">No project picture yet.</div>
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Revise Donation Goal [in terms of USD]</div>
+				<input id="donation-goal-input" class="field-input" type="number" value="{{ info.donation_goal }}">
+			</div>
+			<div class="field-wrapper">
+				<div class="field-label">Project Main Profile</div>
+				<textarea id="other-info-input" class="field-textarea">{{ info.other_info }}</textarea>
+			</div>
+			<div class="field-wrapper">
+				<input id="submit-button" class="field-submit float-right" type="submit" value="update">
+				<div class="clear-fix"></div>
+			</div>
+		</div>
+		
+
+	</div>
+{% endblock %}

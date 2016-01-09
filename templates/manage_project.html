@@ -22,13 +22,10 @@
 			Management
 		</div>
 		<div class="management-options">
-			<div class="option-item float-left">
+			<div class="option-item float-left" onclick="location.href='/project/{{ info.proj_id }}/post'">
 				Broadcast new post
 			</div>
-			<div class="option-item float-left">
-				Revise goal
-			</div>
-			<div class="option-item float-left">
+			<div class="option-item float-left" onclick="location.href='/update/project/{{ info.proj_id }}'">
 				Update project profile
 			</div>
 			<div class="clear-fix"></div>

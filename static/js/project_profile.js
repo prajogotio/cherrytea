@@ -147,11 +147,21 @@ function registerListenerToPosts() {
         var like = $(cur).find('input[name="like"]').first().val();
         var textarea = $(cur).find('textarea')[0];
         var replyList = $(cur).find('.replies')[0];
-        replyEventHandler(textarea, replyList, broadcast_id, like);
+        var likeButton = $(cur).find('.post_like')[0];
+        var unlikeButton = $(cur).find('.post_unlike')[0];
+        var replyButton = $(cur).find('.post_reply')[0];
+        var counter = $(cur).find('.post_likes')[0];
+        replyEventHandler(textarea, replyList, broadcast_id);
+        if (like == 'true') {
+            $(likeButton).hide();
+        } else {
+            $(unlikeButton).hide();
+        }
+        registerButtons(likeButton, unlikeButton, replyButton, broadcast_id, counter);
     }
 }
 
-function replyEventHandler(textarea, replyList, broadcast_id, like){
+function replyEventHandler(textarea, replyList, broadcast_id){
     var state = {
         processing : false,
     }
@@ -198,4 +208,30 @@ function appendReply(replyList, msg) {
         txt += '<br><span class="date-time">replied just now.</span>';
     div.innerHTML = txt;
     replyList.appendChild(div);
+}
+
+
+function registerButtons(likeButton, unlikeButton, replyButton, broadcast_id, counter) {
+    $(likeButton).click(function(){
+        $.ajax({
+            'url':'http://'+location.host+'/post/like',
+            'data':{broadcast_id:broadcast_id},
+            'method':'POST',
+        }).done(function(msg) {
+            $(likeButton).hide();
+            $(unlikeButton).show();
+            $(counter).html(parseInt($(counter).html())+1);
+        })
+    });
+    $(unlikeButton).click(function(){
+        $.ajax({
+            'url':'http://'+location.host+'/post/unlike',
+            'data':{broadcast_id:broadcast_id},
+            'method':'POST',
+        }).done(function(msg) {
+            $(likeButton).show();
+            $(unlikeButton).hide();
+            $(counter).html(parseInt($(counter).html())-1);
+        })
+    });
 }

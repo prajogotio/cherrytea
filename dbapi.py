@@ -297,6 +297,24 @@ def create_project(owner_id, proj_name, proj_desc, location, category, donation_
 	#except:
 	#	return {'success':False}
 
+def update_project(proj_id, proj_name=None, proj_desc=None, location=None, category=None, donation_goal=None, charity_org=None, other_info=None, proj_pic_id=None):
+	#try:
+		params = {'proj_name':proj_name,
+				  'proj_desc':proj_desc,
+				  'location':location,
+				  'category':category,
+				  'charity_org':charity_org,
+				  'donation_goal':donation_goal,
+				  'other_info':other_info,
+				  'proj_pic_id':proj_pic_id,
+				  'date_created':datetime.datetime.utcnow()}
+		p = Project.query.filter(Project.proj_id==proj_id).first()
+		setAttributes(p, params)
+		db.session.commit()
+		return {'success':True, 'proj_id': proj_id}
+	#except:
+	#	return {'success':False}
+
 
 def follow_project(user_id, proj_id):
 	try:
@@ -333,14 +351,28 @@ def post_broadcast(proj_id, title, content):
 		#return False
 
 def like_broadcast(broadcast_id, user_id):
-	try:
+	#try:
 		b = Broadcast.query.filter(Broadcast.broadcast_id==broadcast_id).first()
 		u = User.query.filter(User.user_id==user_id).first()
 		b.likers.append(u)
+		b.num_likes += 1
 		db.session.commit()
 		return True
-	except:
-		return False
+	#except:
+	#	return False
+
+
+def unlike_broadcast(broadcast_id, user_id):
+	#try:
+		b = Broadcast.query.filter(Broadcast.broadcast_id==broadcast_id).first()
+		u = User.query.filter(User.user_id==user_id).first()
+		b.likers.remove(u)
+		b.num_likes -= 1
+		db.session.commit()
+		return True
+	#except:
+	#	return False
+
 
 def reply_broadcast(broadcast_id, user_id, content):
 	#try:
@@ -644,7 +676,7 @@ def get_recent_follower_info(proj_id):
 	return ret
 
 def get_recent_broadcasts(proj_id, size=5):
-	q = 'SELECT broadcast_id, title, content, num_likes, date_broadcasted FROM proj_broadcast WHERE proj_id={0} ORDER BY date_broadcasted LIMIT {1}'.format(proj_id, size)
+	q = 'SELECT broadcast_id, title, content, num_likes, date_broadcasted FROM proj_broadcast WHERE proj_id={0} ORDER BY date_broadcasted DESC LIMIT {1}'.format(proj_id, size)
 	res = db.engine.execute(q)
 	ret = [dict(r) for r in res]
 	for r in ret:
@@ -660,3 +692,8 @@ def get_broadcast_reply(broadcast_id, size=5, offset=0):
 	return {'replies':replies,
 			'offset':offset,
 			'size':size}
+
+def is_broadcast_liked(broadcast_id, user_id):
+	b = Broadcast.query.filter(Broadcast.broadcast_id==broadcast_id).first()
+	u = User.query.filter(User.user_id==user_id).first()
+	return u in b.likers
