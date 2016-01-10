@@ -1,7 +1,7 @@
 (function($){
 	var values = {};
 	$(document).ready(function(){
-		registerUploadPhotoCloudinary(values, 'pic_id');
+		registerUploadPhotoCloudinary(values, 'proj_pic');
 		$('#proj-pic-file').change(function(){
 			if (this.files.length > 0){
 				var f = this.files[0];
