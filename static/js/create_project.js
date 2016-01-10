@@ -59,9 +59,7 @@
 
 function registerUploadPhotoCloudinary(values, pic_id) {
 	$('.form-upload').append($.cloudinary.unsigned_upload_tag("i9hka0um",  { cloud_name: 'ddkd4u5ja' }));
-	$('.form-upload').unsigned_cloudinary_upload("i9hka0um", 
-				{ cloud_name: 'ddkd4u5ja'}
-	).bind('cloudinarydone', function(e, data) {
+	$('.form-upload input').first().bind('cloudinarydone', function(e, data) {
 		$('#form-upload-info').html('Uploaded!');
 		$.ajax({
 			url:'http://'+location.host+'/store/pic',
