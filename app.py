@@ -6,7 +6,7 @@ import os, random, datetime
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = 'SECRET KEY FOR CHERRYTEA SESSION'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///cherryteadb')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['UPLOAD_FOLDER'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static/prof_pic'))
 app.config['PROF_PIC_STORAGE'] = '/static/prof_pic'
@@ -136,6 +136,10 @@ def app_update_profile_submission():
 	ret = update_user_profile(session['user_id'], params)
 	return jsonify(ret)
 
+@app.route('/store/pic', methods=['POST'])
+def app_record_pic_url():
+	ret = record_prof_pic(request.form.get('pic_url'))
+	return jsonify(ret)
 
 @app.route('/record/donation', methods=['POST'])
 def app_record_donation():
