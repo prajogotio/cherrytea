@@ -44,10 +44,10 @@ function renderPager(offset, size, total, search_term){
 	if (cur != 1) {
 		appendPagerButton('prev', size*(cur-2), size, search_term);
 	}
-	for (var i = Math.max(1,cur-2); i < Math.min(containers,cur+NUM_OF_PAGERS); ++i) {
+	for (var i = Math.max(1,cur-2); i <= Math.min(containers,cur+NUM_OF_PAGERS); ++i) {
 		appendPagerButton(i, size*(i-1), size, search_term, i==cur);
 	}
-	if (cur+1 < containers) {
+	if (cur+1 <= containers) {
 		appendPagerButton('next', size*cur, size, search_term);
 	}
 }
