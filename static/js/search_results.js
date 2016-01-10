@@ -57,7 +57,7 @@ function appendSearchResult(data) {
 	var div = document.createElement('div');
 	div.setAttribute('class', 'result-item');
 	var txt = '<div class="result-thumbnail float-left"><img src="';
-		txt += data.proj_pic_url || '/static/img/no_poster.jpg';
+		txt += data.pic_url || '/static/img/no_poster.jpg';
 		txt += '" onclick=\'window.location.href="';
 		txt += '/project/' + data.proj_id;
 		txt += '"\'></div><div class="result-info float-left"><div class="result-name"><a href="';
