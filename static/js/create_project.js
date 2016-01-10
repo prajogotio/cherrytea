@@ -69,7 +69,6 @@ function registerUploadPhotoCloudinary(values, pic_id) {
 			data:{'pic_url':data.result.secure_url}
 		}).done(function(msg) {
 			values[pic_id] = msg.pic_id;
-			console.log(values, msg)
 		});
 	}).bind('cloudinaryprogress', function(e, data) { 
 	  $('#form-upload-info').html('Uploading: ' +  
